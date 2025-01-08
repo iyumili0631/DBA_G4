@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     // 獲取數據
-    fetch('http://localhost:8000/crm/api/marketing_metrics')
+    fetch('http://localhost:8000/crm/api/marketing_metrics/')
         .then(response => response.json())
         .then(data => {
             const marketingMetrics = document.getElementById('orderBody');

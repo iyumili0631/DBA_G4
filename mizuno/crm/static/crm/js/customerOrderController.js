@@ -23,7 +23,7 @@ function loadCustomerOrderList(){
                     <td>${customerOrder.order_date}</td>
                     <td>${customerOrder.order_product}</td>
                     <td>${customerOrder.order_quantity}</td>
-                    <td>${customerOrder.requered_delivery_date}</td>
+                    <td>${customerOrder.required_delivery_date}</td>
                     <td id="customer_order_detail-${customerOrder.order_ID}">${customerOrder.status}</td>
                     <td>
                         <select id="status-select-${customerOrder.order_ID}" onchange="updateOrderStatus(${customerOrder.order_ID})">
