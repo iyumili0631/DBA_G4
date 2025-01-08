@@ -83,6 +83,9 @@ class Customer(models.Model):
 
     def __str__(self):
         return f"{self.customer_ID} - {self.name}"
+    
+    def __repr__(self):
+        return self.name
 
 # 顧客訂單
 class CustomerOrder(models.Model):
@@ -132,7 +135,7 @@ class RFMAnalysis(models.Model):
 
             for customer in customers:
                 # 獲取該顧客的訂單
-                orders = customer.customerorder.all()
+                orders = customer.customerorder_set.all()
 
                 if orders.exists():  # 確保有訂單
                     last_order_date = orders.latest('order_date').order_date
@@ -182,7 +185,20 @@ class RFMAnalysis(models.Model):
             
             # 批量保存 RFM 分析結果
             with transaction.atomic():
-                RFMAnalysis.objects.bulk_create(rfm_results)
+                RFMAnalysis.objects.bulk_create(
+                    rfm_results, 
+                    update_conflicts=True, 
+                    unique_fields=['customer'],
+                    update_fields=[
+                        'recency',
+                        'frequency',
+                        'monetary',
+                        'rfm_value',
+                        'customer_group',
+                        'most_valuable_customer',
+                        'marketing_strategy_suggestion',
+                    ]
+                )
             print("RFM analysis completed successfully.")
             return rfm_results
 

@@ -7,10 +7,13 @@ class CustomerSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class CustomerOrderSerializer(serializers.ModelSerializer):
+    customer = serializers.CharField(source='customer.name')
 
     class Meta:
         model = CustomerOrder
         fields = '__all__'
+
+
         
 class SalesTaskSerializer(serializers.ModelSerializer):
     class Meta:

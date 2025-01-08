@@ -49,7 +49,7 @@ function addCustomer() {
 
 
     // 發送 POST 請求到後端
-    fetch('http://localhost:8000/crm/api/customers/create', {
+    fetch('http://localhost:8000/crm/api/customers/create/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

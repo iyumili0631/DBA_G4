@@ -73,7 +73,8 @@ class CreateCustomerAPIView(APIView):
         接收 POST 請求來新增顧客
         """
         # 獲取請求中的資料
-        data = json.loads(request.data)
+        # data = json.loads(request.data)
+        data = request.data
         customer_ID = data.get('customer_ID')  # 從 JSON 中取出 customer_ID
         name = data.get('name')  # 從 JSON 中取出 name
 
@@ -131,13 +132,13 @@ class CustomerOrderDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
         data = request.data
 
         # 驗證數據是否合法
-        newStatus = data.get("newStatus", instance.newStatus)
+        newStatus = data.get("status", instance.status)
 
         if newStatus not in ["已完成", "處理中", "已取消"]:
             return Response({"error": "Invalid task_action"}, status=400)
         
         # 更新數據
-        instance.newStatus = newStatus
+        instance.status = newStatus
         instance.save()
 
         serializer = self.get_serializer(instance)
