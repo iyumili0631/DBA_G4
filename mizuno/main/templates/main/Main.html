@@ -1,0 +1,135 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>產銷資訊系統</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{% static 'main/css/styles.css' %}" rel="stylesheet" />
+   
+        <style type="text/css">
+
+
+            .main-color{
+                color: #405580;
+            }
+
+
+            .image-size{
+                width: 416px;
+            }
+
+
+            @import url(https://fonts.googleapis.com/earlyaccess/cwtexyen.css);
+            .fontStyle{
+                font-family: 'cwTeXYen', sans-serif;
+                font-size: 52px;
+                font-weight: 800;
+            }
+
+
+        </style>
+
+
+
+
+    </head>
+    <body>
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav" style="background-color: #405580;">
+            <div class="container">
+                <a class="navbar-brand" style="color: white;" href="#Main">MIZUNO產銷資訊系統</a>
+
+
+                <button class="navbar-toggler" style="background-color: #405580; color: white;" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars ms-1"></i>
+                </button>
+               
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+                        <li class="nav-item"><a class="nav-link" style="color: white;" href="#">如何使用</a></li>
+                        <li class="nav-item"><a class="nav-link" style="color: white;" href="#Index">登出</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Masthead-->
+        <header class="masthead py-6">
+            <div class="container">
+                <h2 class="main-color">歡迎來到產銷資訊系統!</h2>
+            </div>
+        </header>
+        <!-- Portfolio Grid-->
+        <section class="page-section" style="background-color: #405580;" id="portfolio">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-heading text-uppercase text-white">系統</h2>
+                    <h3 class="section-subheading text-white">請選擇您要進入的系統</h3>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-sm-6 mb-4">
+                        <!-- Portfolio item 1-->
+                        <div class="portfolio-item">
+                            <a class="portfolio-link" href="{% url 'OM' %}">
+                                <div class="portfolio-hover" style="background-color: #f2f8ff;">
+                                    <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+                                </div>
+                                <img src="{% static 'main/images/OM.png' %}" alt="OM Image">
+                            </a>
+                            <div class="portfolio-caption">
+                                <div class="portfolio-caption-heading">作業管理</div>
+                                <div class="portfolio-caption-subheading text-muted">Operation Management</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-6 mb-4">
+                        <!-- Portfolio item 2-->
+                        <div class="portfolio-item">
+                            <a class="portfolio-link" href="{% url 'CRM' %}">
+                                <div class="portfolio-hover" style="background-color: #f2f8ff;">
+                                    <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+                                </div>
+                                <img src="{% static 'main/images/CRM.png' %}" alt="CRM Image">
+                            </a>
+                            <div class="portfolio-caption">
+                                <div class="portfolio-caption-heading">客戶關係管理</div>
+                                <div class="portfolio-caption-subheading text-muted">Customer Relationship Management</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Footer-->
+        <footer class="footer py-4"  style="background-color: #405580;">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-12 text-center" style="color: white;">Copyright &copy; DBA G-4 2024</div>
+                </div>
+            </div>
+        </footer>
+       
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <!-- * *                               SB Forms JS                               * *-->
+        <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+    </body>
+</html>
+
+
+
