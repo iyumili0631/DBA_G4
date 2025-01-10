@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-
 function loadCustomerList() {
     // 手動觸發顧客列表更新
     const customerListTable = document.getElementById('customerList').querySelector('tbody');
@@ -38,33 +37,50 @@ function loadCustomerList() {
 
 
 function addCustomer() {
-    const formData = {
-        name: document.getElementById('name').value,
+    // 獲取顧客姓名
+    const name = document.getElementById('customerName').value;
+    
+    // 檢查顧客姓名是否輸入
+    if (!name) {
+        alert("顧客姓名為必填欄位！");
+        return;  // 如果沒有輸入顧客姓名，阻止表單提交
     }
 
-    axios.post('https://localhost:8000/crm/api/customers_create/', formData)
+    // 準備表單資料，其他欄位使用預設值
+    const formData = {
+        name: name,  // 顧客姓名
+        last_purchase_date: 'N/A',  // 預設值
+        avg_purchase_interval: 'N/A',  // 預設值
+        avg_purchase_value: 'N/A',  // 預設值
+        avg_customer_years: 3.0,  // 預設值
+        lifetime_value: 'N/A'  // 預設值
+    };
+
+    // 使用 axios 提交資料
+    axios.post('http://localhost:8000/crm/api/customers_create/', formData)
         .then(response => {
             console.log('新增成功:', response.data);
-            alert('訂單新增成功！');
-            // 在這裡更新前端的訂單列表
+            alert('顧客新增成功！');
+            // 可以更新顧客列表或者清空表單等
             updateCustomerList(response.data);
         })
         .catch(error => {
-            console.error('新增失敗:', error.response.data);
-            alert('訂單新增失敗，請檢查輸入數據！');
+            console.error('新增失敗:', error);
+            alert('新增失敗，請檢查資料！');
         });
 }
+
 
 function updateCustomerList(customer) {
     const tableBody = document.querySelector('#customerList tbody');
     const newRow = `
         <tr>
-            <td>${customer.id}</td>
-            <td>${customer.name}</td>
+            <td>${customer.id || 'N/A'}</td>
+            <td>${customer.name || 'N/A'}</td>
             <td>${customer.last_purchase_date || 'N/A'}</td>
             <td>${customer.avg_purchase_interval || 'N/A'}</td>
             <td>${customer.avg_purchase_value || 'N/A'}</td>
-            <td>${customer.avg_customer_years || 'N/A'}</td>
+            <td>${customer.avg_customer_year || 'N/A'}</td>
             <td>${customer.lifetime_value || 'N/A'}</td>
         </tr>
     `;
@@ -76,6 +92,11 @@ function getCsrfToken() {
     const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]');
     return csrfToken ? csrfToken.value : '';
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+    // 在此處調用初始化函數
+    loadCustomerList();
+});
 
 
 

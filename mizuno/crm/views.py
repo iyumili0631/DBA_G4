@@ -69,8 +69,17 @@ class CreateCustomerAPIView(APIView):
     def post(self, request):
         serializer = CreateCustomerSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()  # 保存數據到數據庫
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            customer = serializer.save()  # 保存數據到數據庫
+            response_data = {
+                'id': customer.id,  # 自動生成的主鍵 ID
+                'name': customer.name,
+                'last_purchase_date': customer.last_purchase_date,
+                'avg_purchase_date':customer.avg_purchase_interval,
+                'avg_purchase_value': customer.avg_purchase_value,
+                'avg_customer_years': customer.avg_customer_years,
+                'lifetime_value': customer.lifetime_value
+            }
+            return Response(response_data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
