@@ -14,16 +14,25 @@ urlpatterns = [
     # API 視圖 （新增修改刪除查詢）
     path('api/boms/', views.BOMAPIView.as_view(), name='bom_api'),
     path('api/boms/<int:pk>/', views.BOMDetailAPIView.as_view(), name='bom_api_detail'),
+   
     path('api/production_orders/', views.ProductionOrderAPIView.as_view(), name='production_order_api'),
     path('api/production_orders/<int:pk>/', views.ProductionOrderDetailAPIView.as_view(), name='production_order_api_detail'),
+    path('api/production_order_IDs/', views.ProductionOrderIDAPIView.as_view(), name='production_order_IDs_api'), 
+
     path('api/production_tasks/', views.TasksAPIView.as_view(), name='task_api'),
     path('api/production_tasks/<int:pk>/', views.TasksDetailAPIView.as_view(), name='task_api_detail'),
+
     path('api/products/', views.ProductsAPIView.as_view(), name='product_api'),
     path('api/products/<int:pk>/', views.ProductsDetailAPIView.as_view(), name='product_api_detail'),
+    path('api/product_names/', views.ProductNameAPIView.as_view(), name='product_names_api'),
+
     path('api/materials/', views.MaterialsAPIView.as_view(), name='material_api'),
     path('api/materials/<int:pk>/', views.MaterialsDetailAPIView.as_view(), name='material_api_detail'),
+    path('api/material_names/', views.MaterialNameAPIView.as_view(), name='material_names_api'),
+
     path('api/product_restock/', views.ProductRestockAPIView.as_view(), name='product_restock_api'),
     path('api/product_restock/<int:pk>/', views.ProductRestockDetailAPIView.as_view(), name='product_restock_api_detail'),
+   
     path('api/material_restock/', views.MaterialRestockAPIView.as_view(), name='material_restock_api'),
     path('api/material_restock/<int:pk>/', views.MaterialRestockDetailAPIView.as_view(), name='material_restock_api_detail'),
 ]
