@@ -81,7 +81,7 @@ class Customer(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.customer_ID} - {self.name}"
+        return f"{self.name}"
     
     def __repr__(self):
         return self.name
