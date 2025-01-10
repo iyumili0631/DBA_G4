@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.views import Response
+from rest_framework import status
 from rest_framework import generics
 from .models import BOM, ProductionOrder, Task, Product, Material, ProductRestock, MaterialRestock
 from .serializers import *
+
 
 # ==========================
 # HTML 模板視圖
@@ -67,6 +69,15 @@ class ProductionOrderAPIView(APIView):
             return Response(serializer.data, status=200)
         except Exception as e:
             return Response({"error": str(e)}, status=500)
+        
+class CreateProductionOrderAPIView(APIView):
+
+    def post(self, request):
+        serializer = CreateProductionOrderSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()  # 保存數據到數據庫
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class ProductionOrderDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = ProductionOrder.objects.all()

@@ -17,7 +17,12 @@ class ProductionOrderSerializer(serializers.ModelSerializer):
 class ProductionOrderIDSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductionOrder
-        fields = ['order_ID']
+        fields = ['id']
+
+class CreateProductionOrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductionOrder
+        fields = ['id', 'order_date', 'product_name', 'product_quantity', 'material_name', "material_quantity", 'order_status', 'order_deadline']
 
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
