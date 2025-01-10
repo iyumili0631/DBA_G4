@@ -220,7 +220,7 @@ class MarketingMetrics(models.Model):
     year = models.IntegerField(null=True, blank=True)
     quarter = models.CharField(max_length=255, null=True, blank=True)
     quarter_sales = models.FloatField(null=True, blank=True)
-    quarter_growth_rate = models.FloatField(null=True, blank=True)
+    quarter_growth_rate = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
     @staticmethod
     def get_quarter(month):
@@ -280,7 +280,7 @@ class MarketingMetrics(models.Model):
                     growth_data[year][quarter] = (
                         (current_sales - previous_sales) / previous_sales * 100
                         if previous_sales > 0
-                        else 0.0  # 或 'N/A'
+                        else 0.00  # 或 'N/A'
                     )
 
         return growth_data
