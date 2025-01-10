@@ -38,43 +38,38 @@ function loadCustomerList() {
 
 
 function addCustomer() {
-    const customerNum = parseInt(document.getElementById('customerNum').value, 10);
-    const customerName = document.getElementById('customerName').value;
-
-
-    if (!customerNum || !customerName) {
-        alert('請填寫所有欄位！');
-        return;
+    const formData = {
+        name: document.getElementById('name').value,
     }
 
-
-    // 發送 POST 請求到後端
-    fetch('http://localhost:8000/crm/api/customers/create/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': getCsrfToken(), // CSRF 保護
-        },
-        body: JSON.stringify({
-            customer_ID: customerNum,
-            name: customerName
-        }),
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('新增顧客成功！');
-                // 更新顧客清單或重新載入頁面
-                loadCustomerList();
-            } else {
-                alert('新增顧客失敗：' + data.error);
-            }
+    axios.post('/api/customers/create', formData)
+        .then(response => {
+            console.log('新增成功:', response.data);
+            alert('訂單新增成功！');
+            // 在這裡更新前端的訂單列表
+            updateCustomerList(response.data);
         })
         .catch(error => {
-            console.error('Error:', error);
-            alert('新增顧客時發生錯誤');
+            console.error('新增失敗:', error.response.data);
+            alert('訂單新增失敗，請檢查輸入數據！');
         });
 }
+
+function updateCustomerList(customer) {
+    const tableBody = document.querySelector('#customerList tbody');
+    const newRow = `
+        <tr>
+            <td>${customer.id}</td>
+            <td>${customer.name}</td>
+            <td>${customer.last_purchase_date || 'N/A'}</td>
+            <td>${customer.avg_purchase_interval || 'N/A'}</td>
+            <td>${customer.avg_purchase_value || 'N/A'}</td>
+            <td>${customer.avg_customer_years || 'N/A'}</td>
+            <td>${customer.lifetime_value || 'N/A'}</td>
+        </tr>
+    `;
+    tableBody.insertAdjacentHTML('beforeend', newRow);
+} 
 
 
 function getCsrfToken() {
