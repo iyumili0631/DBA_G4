@@ -86,6 +86,7 @@ function addProductOrder(){
     const Pquantity = document.getElementById('Pquantity').value;
     const materialName = document.getElementById('materialName').value;
     const Mquantity = document.getElementById('Mquantity').value;
+    const deadline = document.getElementById('deadline').value;
 
 
     if (!orderDate || !productName) {
@@ -105,7 +106,8 @@ function addProductOrder(){
             product_name: productName,
             product_quantity: Pquantity,
             material_name: materialName,
-            material_quantity: Mquantity
+            material_quantity: Mquantity,
+            order_deadline: deadline
         }),
     })
         .then(response => response.json())
@@ -122,38 +124,22 @@ function addProductOrder(){
             console.error('Error:', error);
             alert('新增顧客時發生錯誤');
         });
+}
 
-    fetch('http://localhost:8000/operation/api/product_names/')
-        .then(response => response.json())
+function dropdownOption(){
+    dropdownOptions('http://localhost:8000/operation/api/product_names/', 'productName')
+    dropdownOptions('http://localhost:8000/operation/api/material_names/', 'materialName')
+}
+
+function dropdownOptions(url, elementId){
+    fetch(url)
         .then(data => {
-            const productName = document.getElementById('productName');
-
-            data.forEach(option => {
-                const optionElement = document.createElement('option');
-                optionElement.value = option;
-                optionElement.textContent = option;
-                productName.appendChild(optionElement);
-            });
+            const dropdown = document.getElementById(elementId);
+            dropdown.innerHTML = data.map(option => `
+                <option value="${option}">${option}</option>
+            `).join('');
         })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-        });
-
-    fetch('http://localhost:8000/operation/api/material_names/')
-    .then(response => response.json())
-    .then(data => {
-        const materialName = document.getElementById('materialName');
-
-        data.forEach(option => {
-            const optionElement = document.createElement('option');
-            optionElement.value = option;
-            optionElement.textContent = option;
-            materialName.appendChild(optionElement);
-        });
-    })
-    .catch(error => {
-        console.error('Error fetching data:', error);
-    });
+        .catch(error => console.error(`Failed to populate ${elementId}:`, error));
 }
 
 // 獲取 CSRF token（如果需要）

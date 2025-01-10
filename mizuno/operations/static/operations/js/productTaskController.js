@@ -94,3 +94,4 @@ document.addEventListener('DOMContentLoaded', function () {
         return csrfTokenInput.value;
     }
 });
+
