@@ -9,7 +9,7 @@ class CustomerSerializer(serializers.ModelSerializer):
 class CreateCustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
-        fields = ['id', 'name']
+        fields = ['id', 'name', 'last_purchase_date', 'avg_purchase_interval', 'avg_purchase_value', 'avg_customer_years', 'lifetime_value']
                   
 
 class CustomerOrderSerializer(serializers.ModelSerializer):

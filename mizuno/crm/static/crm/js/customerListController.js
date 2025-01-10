@@ -42,7 +42,7 @@ function addCustomer() {
         name: document.getElementById('name').value,
     }
 
-    axios.post('/api/customers/create', formData)
+    axios.post('https://localhost:8000/crm/api/customers_create/', formData)
         .then(response => {
             console.log('新增成功:', response.data);
             alert('訂單新增成功！');
