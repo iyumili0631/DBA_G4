@@ -49,9 +49,11 @@ def material_restock_list(request):
 # API 視圖 (JSON 回傳)
 # ==========================
 # BOM API
-class BOMAPIView(generics.ListCreateAPIView):
-    queryset = BOM.objects.all()
-    serializer_class = BOMSerializer
+class BOMAPIView(APIView):
+    def get(self, request, *args, **kwargs):
+        boms = BOM.objects.all()
+        serializer = BOMSerializer(boms, many=True)
+        return Response(serializer.data)
 
 class BOMDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = BOM.objects.all()
