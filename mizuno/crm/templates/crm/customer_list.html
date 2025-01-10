@@ -20,6 +20,7 @@
 
         <link href="https://fonts.googleapis.com/earlyaccess/cwtexyen.css" rel="stylesheet">
 
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
         <script src="{% static 'crm/js/customerListController.js' %}"></script>
    
@@ -158,7 +159,9 @@
                         </div>
                         <div class="card-body">
                             <form id="addCustomerForm" onsubmit="addCustomer(); return false;">
-                                {% csrf_token %}
+                                <!-- CSRF 令牌 -->
+                                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                                
                                 <div class='mb-3'>
                                     <label for="customerName" class="form-label">顧客姓名</label>
                                     <input type="text" class="form-control" id="customerName" name="customerName" placeholder="請輸入顧客姓名" required>
@@ -215,7 +218,7 @@
         <!-- * *                               SB Forms JS                               * *-->
         <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+        
     </body>
 </html>
 

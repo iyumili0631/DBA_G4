@@ -19,7 +19,7 @@ function loadCustomerList() {
             data.forEach(customer => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td>${customer.customer_ID}</td>
+                    <td>${customer.id}</td>
                     <td>${customer.name}</td>
                     <td>${customer.last_purchase_date || 'N/A'}</td>
                     <td>${customer.avg_purchase_interval || 'N/A'}</td>
@@ -49,15 +49,21 @@ function addCustomer() {
     // 準備表單資料，其他欄位使用預設值
     const formData = {
         name: name,  // 顧客姓名
-        last_purchase_date: 'N/A',  // 預設值
-        avg_purchase_interval: 'N/A',  // 預設值
-        avg_purchase_value: 'N/A',  // 預設值
+        last_purchase_date: null,  // 預設值
+        avg_purchase_interval: null,  // 預設值
+        avg_purchase_value: null,  // 預設值
         avg_customer_years: 3.0,  // 預設值
-        lifetime_value: 'N/A'  // 預設值
+        lifetime_value: null,  // 預設值
     };
 
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
     // 使用 axios 提交資料
-    axios.post('http://localhost:8000/crm/api/customers_create/', formData)
+    axios.post('http://localhost:8000/crm/api/customers_create/', formData,{
+        headers: {
+                'X-CSRFToken': csrfToken
+            }
+        })
         .then(response => {
             console.log('新增成功:', response.data);
             alert('顧客新增成功！');
@@ -72,15 +78,15 @@ function addCustomer() {
 
 
 function updateCustomerList(customer) {
-    const tableBody = document.querySelector('#customerList tbody');
+    const tableBody = document.querySelector('customerList tbody');
     const newRow = `
         <tr>
-            <td>${customer.id || 'N/A'}</td>
-            <td>${customer.name || 'N/A'}</td>
+            <td>${customer.id}</td>
+            <td>${customer.name}</td>
             <td>${customer.last_purchase_date || 'N/A'}</td>
             <td>${customer.avg_purchase_interval || 'N/A'}</td>
             <td>${customer.avg_purchase_value || 'N/A'}</td>
-            <td>${customer.avg_customer_year || 'N/A'}</td>
+            <td>${customer.avg_customer_years || 'N/A'}</td>
             <td>${customer.lifetime_value || 'N/A'}</td>
         </tr>
     `;
