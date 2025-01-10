@@ -8,6 +8,7 @@ class CustomerSerializer(serializers.ModelSerializer):
 
 class CustomerOrderSerializer(serializers.ModelSerializer):
     customer = serializers.CharField(source='customer.name')
+    order_product = serializers.CharField(source='order_product.product_name')
 
     class Meta:
         model = CustomerOrder
