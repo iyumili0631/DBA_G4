@@ -157,28 +157,31 @@
                             <h2 style='font-size: 18px'>新增代辦事項</h2>
                         </div>
                         <div class="card-body">
-                            <form id="addOrderForm" onsubmit="addCustomerOrder(); return false;">
+                            <form id="addActionForm" onsubmit="addAction(); return false;">
                                 <div class='mb-3'>
-                                    <label for="importName" class="form-label inputfont">顧客姓名</label>
-                                    <input type="text" class="form-control" id="customerName" name="customerName" placeholder="請輸入顧客姓名" required>                        
+                                    <label for="orderNum" class="form-label inputfont">選擇訂單</label>
+                                    <select class="form-control input-col" id="orderNum" name="orderNum[]" required>
+                                        <option Value=''>請選擇訂單編號</option>
+                                    </select>   
                                 </div>
                                 <div class='mb-3'>
-                                    <label for="importNum" class="form-label inputfont">訂單編號</label>
-                                    <input type="text" class="form-control" id="orderNum" name="orderNum" placeholder="請輸入訂單編號" required>
+                                    <label for="importDate" class="form-label inputfont">動作日期</label>
+                                    <input type="text" class="form-control" id="actionDate" name="actionDate" placeholder="請輸入訂單日期" required>
                                 </div>
                                 <div class='mb-3'>
-                                    <label for="importDate" class="form-label inputfont">訂單日期</label>
-                                    <input type="text" class="form-control" id="orderDate" name="orderDate" placeholder="請輸入訂單日期" required>
+                                    <label for="importAction" class="form-label inputfont">動作狀態</label>
+                                    <select class="form-control input-col" id="action" name="action[]" required>
+                                        <option Value=''>請選擇欲進行的動作</option>
+                                        <option Value='生產'>生產</option>
+                                        <option Value='發貨'>發貨</option>
+                                        <option Value='訂購'>訂購</option>
+                                    </select>                                
                                 </div>
                                 <div class='mb-3'>
-                                    <label for="importContent" class="form-label inputfont">訂單內容</label>
-                                    <input type="text" class="form-control" id="orderContent" name="orderContent" placeholder="請輸入訂單內容" required>
+                                    <label for="importContent" class="form-label inputfont">動作內容</label>
+                                    <input type="text" class="form-control" id="actionContent" name="actionContent" placeholder="請輸入訂單內容" required>
                                 </div>
-                                <div class='mb-3'>
-                                    <label for="importQ" class="form-label inputfont">產品數量</label>
-                                    <input type="text" class="form-control" id="quantity" name="quantity" placeholder="請輸入產品數量" required>
-                                </div>
-                                <button type='button' class="btn btn-primary" onclick="addCustomerOrder()">新增</button>
+                                <button type='button' class="btn btn-primary" onclick="addAction()">新增</button>
                             </form>
                         </div>
 
@@ -188,12 +191,12 @@
                         <thead>
                             <tr>
                                 <th scope="col">訂單編號</th>
-                                <th scope="col">訂單日期</th>
+                                <th scope="col">動作日期</th>
                                 <th scope="col">動作</th>
                                 <th scope="col">修改動作</th>
-                                <th scope="col">訂單內容</th>
-                                <th scope="col">訂單狀態</th>
-                                <th scope="col">修改訂單狀態</th>
+                                <th scope="col">動作內容</th>
+                                <th scope="col">動作狀態</th>
+                                <th scope="col">修改狀態</th>
                             </tr>
                         </thead>
                         <tbody>

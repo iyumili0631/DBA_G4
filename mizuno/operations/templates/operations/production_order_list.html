@@ -157,28 +157,30 @@
                             <h2 style='font-size: 18px'>新增訂貨單</h2>
                         </div>
                         <div class="card-body">
-                            <form id="addOrderForm" onsubmit="addCustomerOrder(); return false;">
-                                <div class='mb-3'>
-                                    <label for="importName" class="form-label inputfont">顧客姓名</label>
-                                    <input type="text" class="form-control" id="customerName" name="customerName" placeholder="請輸入顧客姓名" required>                        
-                                </div>
-                                <div class='mb-3'>
-                                    <label for="importNum" class="form-label inputfont">訂單編號</label>
-                                    <input type="text" class="form-control" id="orderNum" name="orderNum" placeholder="請輸入訂單編號" required>
-                                </div>
+                            <form id="addProductOrderForm" onsubmit="addProductOrder(); return false;">
                                 <div class='mb-3'>
                                     <label for="importDate" class="form-label inputfont">訂單日期</label>
                                     <input type="text" class="form-control" id="orderDate" name="orderDate" placeholder="請輸入訂單日期" required>
                                 </div>
                                 <div class='mb-3'>
-                                    <label for="importContent" class="form-label inputfont">訂單內容</label>
-                                    <input type="text" class="form-control" id="orderContent" name="orderContent" placeholder="請輸入訂單內容" required>
+                                    <label for="productName" class="form-label inputfont">產品名稱</label>
+                                    <select class="form-control input-col" id="productName" name="productName[]" required>
+                                        <option Value=''>請選擇產品</option>
+                                    </select>                                
+                                <div class='mb-3'>
+                                    <label for="importPQ" class="form-label inputfont">產品數量</label>
+                                    <input type="text" class="form-control" id="Pquantity" name="Pquantity" placeholder="請輸入產品數量" required>
                                 </div>
                                 <div class='mb-3'>
-                                    <label for="importQ" class="form-label inputfont">產品數量</label>
-                                    <input type="text" class="form-control" id="quantity" name="quantity" placeholder="請輸入產品數量" required>
+                                    <label for="materialName" class="form-label inputfont">物料名稱</label>
+                                    <select class="form-control input-col" id="materialName" name="materialName[]" required>
+                                        <option value=''>請選擇物料</option>
+                                    </select>                                
+                                <div class='mb-3'>
+                                    <label for="importMQ" class="form-label inputfont">物料數量</label>
+                                    <input type="text" class="form-control" id="Mquantity" name="Mquantity" placeholder="請輸入物料數量" required>
                                 </div>
-                                <button type='button' class="btn btn-primary" onclick="addCustomerOrder()">新增</button>
+                                <button type='button' class="btn btn-primary" onclick="addproductOrder()">新增</button>
                             </form>
                         </div>
 
