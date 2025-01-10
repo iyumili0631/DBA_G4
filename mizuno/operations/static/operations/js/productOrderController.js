@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
     loadProductOrder();
-    dropdownOption();
 });
 
 function loadProductOrder(){
@@ -127,21 +126,6 @@ function addProductOrder(){
         });
 }
 
-function dropdownOption(){
-    dropdownOptions('http://localhost:8000/operation/api/product_names/', 'productName')
-    dropdownOptions('http://localhost:8000/operation/api/material_names/', 'materialName')
-}
-
-function dropdownOptions(url, elementId){
-    fetch(url)
-        .then(data => {
-            const dropdown = document.getElementById(elementId);
-            dropdown.innerHTML = data.map(option => `
-                <option value="${option}">${option}</option>
-            `).join('');
-        })
-        .catch(error => console.error(`Failed to populate ${elementId}:`, error));
-}
 
 // 獲取 CSRF token（如果需要）
 function getCsrfToken() {
