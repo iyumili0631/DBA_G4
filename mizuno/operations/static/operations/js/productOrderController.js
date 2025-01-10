@@ -95,7 +95,7 @@ function addProductOrder(){
     }
 
     // 發送 POST 請求到後端
-    fetch('http://localhost:8000/operation/api//', {
+    fetch('http://localhost:8000/operation/api/create_production_orders/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
