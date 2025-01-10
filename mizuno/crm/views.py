@@ -75,11 +75,11 @@ class CreateCustomerAPIView(APIView):
         # 獲取請求中的資料
         # data = json.loads(request.data)
         data = request.data
-        customer_ID = data.get('customer_ID')  # 從 JSON 中取出 customer_ID
+        # customer_ID = data.get('customer_ID')  # 從 JSON 中取出 customer_ID
         name = data.get('name')  # 從 JSON 中取出 name
 
         # 驗證是否有必要的資料
-        if not customer_ID or not name:
+        if not name:
             return Response(
                 {'success': False, 'error': '缺少必要欄位！'},
                 status=status.HTTP_400_BAD_REQUEST
@@ -87,7 +87,7 @@ class CreateCustomerAPIView(APIView):
 
         # 將資料存入資料庫
         try:
-            Customer.objects.create(customer_ID=customer_ID, name=name)
+            Customer.objects.create(name=name)
             return Response(
                 {'success': True, 'message': '顧客新增成功！'},
                 status=status.HTTP_201_CREATED
