@@ -84,8 +84,6 @@ function addCustomerOrder(){
     const quantity = document.getElementById('quantity').value;
 
 
-
-
     if (!customerNum || !customerName) {
         alert('請填寫所有欄位！');
         return;

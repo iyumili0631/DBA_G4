@@ -1,8 +1,10 @@
 document.addEventListener('DOMContentLoaded', function () {
+    loadProductOrder();
+});
+
+function loadProductOrder(){
     const productOrderList = document.getElementById('productOrderList').querySelector('tbody');
 
-
-    // 獲取顧客訂單資料
     fetch('http://localhost:8000/operations/api/production_orders/')
     .then(response => {
         if (!response.ok) {
@@ -38,7 +40,6 @@ document.addEventListener('DOMContentLoaded', function () {
                    
                 `;
 
-
                 // 將訂單行添加到表格中
                 productOrderList.appendChild(row);
             });
@@ -46,14 +47,12 @@ document.addEventListener('DOMContentLoaded', function () {
         })
         .catch(error => {
             console.error('Error:', error);
-        });
+        })
 
+}
 
-    // 更新訂單狀態的函數
-
-
-    window.updateStatus = function (orderId) {
-        const status = document.getElementById(`status-select-${orderId}`).value;
+function updateProductOrderStatus(orderId){
+    const status = document.getElementById(`status-select-${orderId}`).value;
         const orderStatusCell = document.getElementById(`orderStatus-${orderId}`);
 
 
@@ -78,20 +77,59 @@ document.addEventListener('DOMContentLoaded', function () {
         .catch(error => {
             console.error('Error:', error);
             orderStatusCell.textContent = '更新失敗';
-        });
-    };
+        })
+}
+
+function addProductOrder(){
+    const orderDate = document.getElementById('orderDate').value;
+    const productName = document.getElementById('productName').value;
+    const Pquantity = document.getElementById('Pquantity').value;
+    const materialName = document.getElementById('materialName').value;
+    const Mquantity = document.getElementById('Mquantity').value;
 
 
-    // 獲取 CSRF token（如果需要）
-    function getCsrfToken() {
-        const csrfTokenInput = document.querySelector('[name=csrfmiddlewaretoken]');
-        if (!csrfTokenInput) {
-            console.error('CSRF Token not found!');
-            return '';
-        }
-        return csrfTokenInput.value;
+    if (!orderDate || !productName) {
+        alert('請填寫所有欄位！');
+        return;
     }
-});
 
+    // 發送 POST 請求到後端
+    fetch('http://localhost:8000/crm/api/customers/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCsrfToken(), // CSRF 保護
+        },
+        body: JSON.stringify({
+            customer: customerName,
+            order_ID: orderNum,
+            order_date: orderDate,
+            order_product: orderContent,
+            order_quantity: quantity
+        }),
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('新增顧客成功！');
+                // 更新顧客清單或重新載入頁面
+                loadCustomerList();
+            } else {
+                alert('新增顧客失敗：' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('新增顧客時發生錯誤');
+        });
+}
 
-
+// 獲取 CSRF token（如果需要）
+function getCsrfToken() {
+    const csrfTokenInput = document.querySelector('[name=csrfmiddlewaretoken]');
+    if (!csrfTokenInput) {
+        console.error('CSRF Token not found!');
+        return '';
+    }
+    return csrfTokenInput.value;
+}
