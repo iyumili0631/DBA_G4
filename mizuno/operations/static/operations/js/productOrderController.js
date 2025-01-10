@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     loadProductOrder();
+    dropdownOption();
 });
 
 function loadProductOrder(){
