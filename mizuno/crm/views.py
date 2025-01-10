@@ -7,8 +7,7 @@ from rest_framework.views import APIView
 from rest_framework.views import Response
 from rest_framework.views import status
 from .models import Customer, CustomerOrder, SalesTask, RFMAnalysis, MarketingMetrics
-from .serializers import (CustomerSerializer, CustomerOrderSerializer, SalesTaskSerializer, 
-                          RFMAnalysisSerializer, MarketingMetricsSerializer)
+from .serializers import *
 
 # ==========================
 # HTML 模板視圖
@@ -67,36 +66,12 @@ class CustomerAPIView(APIView):
         return Response(serializer.data)
 
 class CreateCustomerAPIView(APIView):
-
     def post(self, request):
-        """
-        接收 POST 請求來新增顧客
-        """
-        # 獲取請求中的資料
-        # data = json.loads(request.data)
-        data = request.data
-        # customer_ID = data.get('customer_ID')  # 從 JSON 中取出 customer_ID
-        name = data.get('name')  # 從 JSON 中取出 name
-
-        # 驗證是否有必要的資料
-        if not name:
-            return Response(
-                {'success': False, 'error': '缺少必要欄位！'},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-
-        # 將資料存入資料庫
-        try:
-            Customer.objects.create(name=name)
-            return Response(
-                {'success': True, 'message': '顧客新增成功！'},
-                status=status.HTTP_201_CREATED
-            )
-        except Exception as e:
-            return Response(
-                {'success': False, 'error': f'新增顧客失敗：{str(e)}'},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
-            )
+        serializer = CreateCustomerSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()  # 保存數據到數據庫
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 # 計算顧客指標 API
