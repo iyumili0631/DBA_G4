@@ -3,8 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.views import Response
 from rest_framework import generics
 from .models import BOM, ProductionOrder, Task, Product, Material, ProductRestock, MaterialRestock
-from .serializers import (BOMSerializer, ProductionOrderSerializer, TaskSerializer, 
-                          ProductSerializer, MaterialSerializer, ProductRestockSerializer, MaterialRestockSerializer)
+from .serializers import *
 
 # ==========================
 # HTML 模板視圖
@@ -90,6 +89,12 @@ class ProductionOrderDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
         serializer = self.get_serializer(instance)
         return Response(serializer.data, status=200)
     
+class ProductionOrderIDAPIView(APIView):
+    def get(self, request):
+        IDs = ProductionOrder.objects.all()
+        serializer = ProductionOrderIDSerializer(IDs, many=True)
+        return Response(serializer.data)
+    
 # Tasks API
 class TasksAPIView(APIView):
     def get(self, request, *args, **kwargs):
@@ -136,6 +141,12 @@ class ProductsDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
+class ProductNameAPIView(APIView):
+    def get(self, request):
+        names = Product.objects.all()
+        serializer = ProductNameSerializer(names, many=True)
+        return Response(serializer.data)
+
 # Materials API
 class MaterialsAPIView(generics.ListCreateAPIView):
     queryset = Material.objects.all()
@@ -144,6 +155,12 @@ class MaterialsAPIView(generics.ListCreateAPIView):
 class MaterialsDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Material.objects.all()
     serializer_class = MaterialSerializer
+
+class MaterialNameAPIView(APIView):
+    def get(self, request):
+        names = Material.objects.all()
+        serializer = MaterialNameSerializer(names, many=True)
+        return Response(serializer.data)
 
 # Product Restock API
 class ProductRestockAPIView(generics.ListCreateAPIView):

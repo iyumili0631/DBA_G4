@@ -14,6 +14,11 @@ class ProductionOrderSerializer(serializers.ModelSerializer):
         model = ProductionOrder
         fields = '__all__'
 
+class ProductionOrderIDSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductionOrder
+        fields = ['order_ID']
+
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
@@ -24,10 +29,20 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Product
         fields = '__all__'
 
+class ProductNameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ['product_name']
+
 class MaterialSerializer(serializers.ModelSerializer):
     class Meta:
         model = Material
         fields = '__all__'
+
+class MaterialNameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Material
+        fields = ['material_name']
 
 class ProductRestockSerializer(serializers.ModelSerializer):
     class Meta:
