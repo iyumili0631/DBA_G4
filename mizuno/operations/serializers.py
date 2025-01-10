@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import *
 
 class BOMSerializer(serializers.ModelSerializer):
-    bom_prodct_name = serializers.CharField(source='bom_product_name.product_name')
+    product_name = serializers.CharField(source='product_name.product_name')
     material_name = serializers.CharField(source='material_name.material_name')
     
     class Meta:

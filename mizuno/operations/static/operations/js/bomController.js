@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     const bomListTable = document.getElementById('bomList').querySelector('tbody');
 
-
     // 獲取顧客數據
     fetch('http://localhost:8000/operations/api/boms/')
         .then(response => {
@@ -13,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(data => {
             // 渲染顧客列表
             bomListTable.innerHTML = ''; // 清空表格內容
+            const fragment = document.createDocumentFragment(); // 提高性能
             data.forEach(BOM => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
@@ -21,14 +21,12 @@ document.addEventListener('DOMContentLoaded', function () {
                     <td>${BOM.material_name}</td>
                     <td>${BOM.material_quantity}</td>
                 `;
-                bomListTable.appendChild(row);
+                fragment.appendChild(row);
             });
+            bomListTable.appendChild(fragment);// 一次性插入
         })
         .catch(error => {
-            console.error('Error fetching customer data:', error);
-            const errorRow = document.createElement('tr');
-            errorRow.innerHTML = `<td colspan="7">無法載入數據，請稍後再試。</td>`;
-            bomListTable.appendChild(errorRow);
+            console.error('Error:', error);
         });
 });
 
