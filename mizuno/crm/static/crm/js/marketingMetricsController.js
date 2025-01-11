@@ -113,3 +113,25 @@ function createLineChart (labels, values){
         }
     });
 }
+
+function saveButton (){
+    fetch('http://localhost:8000/crm/marketing_metrics/update/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            alert('重整成功！');
+            loadRFM();
+        } else {
+            alert('重整失敗！');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('發生錯誤，請稍後再試。');
+    });
+}
