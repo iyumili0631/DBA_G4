@@ -287,22 +287,22 @@ class MarketingMetrics(models.Model):
     
     @staticmethod
     def save_marketing_metrics(sales_data, growth_data):
-        """保存季度銷售數據和成長率到數據庫"""
-        for year, quarters in sales_data.items():
-            for quarter, sales in quarters.items():
-                # 獲取對應季度的成長率
-                growth_rate = growth_data.get(year, {}).get(quarter)
+        try:
+            for year, quarters in sales_data.items():
+                for quarter, sales in quarters.items():
+                    growth_rate = growth_data.get(year, {}).get(quarter, None)
+                    MarketingMetrics.objects.update_or_create(
+                        year=year,
+                        quarter=f"Q{quarter}",
+                        defaults={
+                            'quarter_sales': sales,
+                            'quarter_growth_rate': growth_rate,
+                        }
+                    )
+        except Exception as e:
+            print(f"Error saving metrics: {e}")
+            raise e  # 確保將錯誤傳遞給視圖處理
 
-                # 尋找現有記錄，避免重複創建
-                marketing_metric, created = MarketingMetrics.objects.get_or_create(
-                    year=year, 
-                    quarter=f"Q{quarter}"
-                )
-
-                # 更新銷售數據和成長率
-                marketing_metric.quarter_sales = sales
-                marketing_metric.quarter_growth_rate = growth_rate
-                marketing_metric.save()
 
         
 

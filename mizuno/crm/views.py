@@ -11,6 +11,7 @@ from .serializers import *
 from django.apps import apps
 from django.shortcuts import get_object_or_404
 from datetime import datetime, timedelta
+from django.utils.decorators import method_decorator
 
 # ==========================
 # HTML 模板視圖
@@ -261,7 +262,7 @@ class MarketingMetricsDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = MarketingMetrics.objects.all()
     serializer_class = MarketingMetricsSerializer
 
-
+@method_decorator(csrf_exempt, name='dispatch')
 class UpdateMarketingMetricsAPIView(APIView):
     """
     手動更新 MarketingMetrics 表中的行銷數據

@@ -148,3 +148,4 @@ function getCsrfToken() {
     }
     return csrfTokenInput.value;
 }
+
