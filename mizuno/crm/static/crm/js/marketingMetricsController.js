@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     fetchChart();
 });
 
+
 async function fetchChart(){
     try {
         // 從後端 API 獲取數據
@@ -115,11 +116,14 @@ function createLineChart (labels, values){
 }
 
 function saveButton (){
+
     fetch('http://localhost:8000/crm/api/marketing_metrics/update/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken,
         },
+        
     })
     .then(response => response.json())
     .then(data => {
@@ -134,4 +138,13 @@ function saveButton (){
         console.error('Error:', error);
         alert('發生錯誤，請稍後再試。');
     });
+}
+
+function getCsrfToken() {
+    const csrfTokenInput = document.querySelector('[name=csrfmiddlewaretoken]');
+    if (!csrfTokenInput) {
+        console.error('CSRF Token not found!');
+        return '';
+    }
+    return csrfTokenInput.value;
 }
