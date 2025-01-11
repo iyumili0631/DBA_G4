@@ -85,7 +85,7 @@ function addProductOrder(){
     const productName = document.getElementById('productName').value;
     const Pquantity = document.getElementById('Pquantity').value;
     const materialName = document.getElementById('materialName').value;
-    const Mquantity = document.getElementById('Mquantity').value;
+    //const Mquantity = document.getElementById('Mquantity').value;
     const deadline = document.getElementById('deadline').value;
 
 
@@ -106,7 +106,7 @@ function addProductOrder(){
             product_name: productName,
             product_quantity: Pquantity,
             material_name: materialName,
-            material_quantity: Mquantity,
+            //material_quantity: Mquantity,
             order_deadline: deadline
         }),
     })
