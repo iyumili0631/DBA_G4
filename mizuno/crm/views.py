@@ -154,9 +154,11 @@ class SalesTaskDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = SalesTaskSerializer
 
 # RFM Analysis API
-class RFMAnalysisAPIView(generics.ListCreateAPIView):
-    queryset = RFMAnalysis.objects.all()
-    serializer_class = RFMAnalysisSerializer
+class RFMAnalysisAPIView(APIView):
+    def get(self, request, *args, **kwargs):
+        RFMs = RFMAnalysis.objects.all()
+        serializer = RFMAnalysisSerializer(RFMs, many=True)
+        return Response(serializer.data)
 
 class RFMAnalysisDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = RFMAnalysis.objects.all()

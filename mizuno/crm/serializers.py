@@ -9,6 +9,7 @@ class CustomerSerializer(serializers.ModelSerializer):
 class CustomerOrderSerializer(serializers.ModelSerializer):
     customer = serializers.CharField(source='customer.name')
 
+
     class Meta:
         model = CustomerOrder
         fields = '__all__'
@@ -21,6 +22,8 @@ class SalesTaskSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class RFMAnalysisSerializer(serializers.ModelSerializer):
+    customer = serializers.CharField(source='customer.name')
+
     class Meta:
         model = RFMAnalysis
         fields = '__all__'
