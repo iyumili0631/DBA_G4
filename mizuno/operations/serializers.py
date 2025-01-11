@@ -20,7 +20,7 @@ class ProductionOrderSerializer(serializers.ModelSerializer):
 class ProductionOrderIDSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductionOrder
-        fields = ['id']
+        fields = ['order_ID']
 
 class CreateProductionOrderSerializer(serializers.ModelSerializer):
     class Meta:
