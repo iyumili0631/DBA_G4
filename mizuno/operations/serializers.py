@@ -10,6 +10,9 @@ class BOMSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ProductionOrderSerializer(serializers.ModelSerializer):
+    product_name = serializers.CharField(source='product_name.product_name')
+    material_name = serializers.CharField(source='material_name.material_name')
+
     class Meta:
         model = ProductionOrder
         fields = '__all__'

@@ -158,6 +158,7 @@
                         </div>
                         <div class="card-body">
                             <form id="addActionForm" onsubmit="addAction(); return false;">
+                                {% csrf_token %}
                                 <div class='mb-3'>
                                     <label for="orderNum" class="form-label inputfont">選擇訂單</label>
                                     <select class="form-control input-col" id="orderNum" name="orderNum[]" required></select>   
