@@ -33,9 +33,9 @@ function loadProductTask (){
                         </select>
                     </td>
                     <td>${task.task_content}</td>
-                    <td id="taskStatus-${task.order_ID}">${task.task_status}</td>
+                    <td id="taskStatus-${task.id}">${task.task_status}</td>
                     <td>
-                        <select id="status-select-${task.order_ID}" onchange="updateTask(${task.order_ID})">
+                        <select id="status-select-${task.id}" onchange="updateTask(${task.id})">
                             <option value="未完成" ${task.task_status === '未完成' ? 'selected' : ''}>未完成</option>
                             <option value="完成" ${task.task_status === '完成' ? 'selected' : ''}>完成</option>
                         </select>
