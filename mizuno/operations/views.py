@@ -94,7 +94,7 @@ class ProductionOrderDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
             return Response({"error": "Invalid status"}, status=400)
 
         # 更新數據
-        instance.order_status = order_status
+        instance.order_status = status
         instance.save()
 
         serializer = self.get_serializer(instance)

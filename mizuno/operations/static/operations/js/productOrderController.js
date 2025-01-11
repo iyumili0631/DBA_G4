@@ -26,9 +26,9 @@ function loadProductOrder(){
                     <td>${productionOrder.product_quantity}</td>
                     <td>${productionOrder.material_name}</td>
                     <td>${productionOrder.material_quantity}</td>
-                    <td id="orderStatus-${productionOrder.order_ID}">${productionOrder.order_status}</td>
+                    <td id="orderStatus-${productionOrder.id}">${productionOrder.order_status}</td>
                     <td>
-                        <select id="status-select-${productionOrder.order_ID}" onchange="updateStatus(${productionOrder.order_ID})">
+                        <select id="status-select-${productionOrder.id}" onchange="updateProductOrderStatus(${productionOrder.id})">
                             <option value="處理中" ${productionOrder.order_status === '處理中' ? 'selected' : ''}>處理中</option>
                             <option value="已完成" ${productionOrder.order_status === '已完成' ? 'selected' : ''}>已完成</option>
                             <option value="已取消" ${productionOrder.order_status === '已取消' ? 'selected' : ''}>已取消</option>
@@ -67,7 +67,7 @@ function updateProductOrderStatus(orderId){
                 'Content-Type': 'application/json',
                 'X-CSRFToken': getCsrfToken()  // 確保 CSRF 保護
             },
-            body: JSON.stringify({ status})
+            body: JSON.stringify({ order_status: status})
         })
         .then(response => response.json())
         .then(data => {
