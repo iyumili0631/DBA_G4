@@ -44,7 +44,7 @@ function loadProductTask (){
 
                 fragment.appendChild(row);
             });
-            productTaskList.appendChild(fragment); // 一次性插入
+            productTaskList.appendChild(fragment); 
         })
         .catch(error => {
             console.error('Error:', error);
@@ -107,12 +107,10 @@ function addAction (){
             'X-CSRFToken': getCsrfToken(), // CSRF 保護
         },
         body: JSON.stringify({
-            order_date: orderDate,
-            product_name: productName,
-            product_quantity: Pquantity,
-            material_name: materialName,
-            material_quantity: Mquantity,
-            order_deadline: deadline
+            order_ID: orderNum,
+            task_date: actionDate,
+            task_action: action,
+            task_content: actionContent,
         }),
     })
         .then(response => response.json())
@@ -120,7 +118,7 @@ function addAction (){
             if (data.success) {
                 alert('新增顧客成功！');
                 // 更新顧客清單或重新載入頁面
-                loadCustomerList();
+                loadProductTask();
             } else {
                 alert('新增顧客失敗：' + data.error);
             }

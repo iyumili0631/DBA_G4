@@ -115,7 +115,7 @@ function addProductOrder(){
             if (data.success) {
                 alert('新增顧客成功！');
                 // 更新顧客清單或重新載入頁面
-                loadCustomerList();
+                loadProductOrder();
             } else {
                 alert('新增顧客失敗：' + data.error);
             }
