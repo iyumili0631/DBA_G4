@@ -24,9 +24,9 @@ function loadProductTask (){
                 row.innerHTML = `
                     <td>${task.order_ID}</td>
                     <td>${task.task_date}</td>
-                    <td id="taskAction-${task.order_ID}">${task.task_action}</td>
+                    <td id="taskAction-${task.id}">${task.task_action}</td>
                     <td>
-                        <select id="action-select-${task.order_ID}" onchange="updateTask(${task.order_ID})">
+                        <select id="action-select-${task.id}" onchange="updateTask(${task.id})">
                             <option value="生產" ${task.task_action === '生產' ? 'selected' : ''}>生產</option>
                             <option value="發貨" ${task.task_action === '發貨' ? 'selected' : ''}>發貨</option>
                             <option value="訂購" ${task.task_action === '訂購' ? 'selected' : ''}>訂購</option>
