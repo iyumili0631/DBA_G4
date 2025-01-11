@@ -104,7 +104,7 @@ fetch ('http://localhost:8000/operations/api/production_order_IDs/')
         data.forEach(task => {
             const optionElement = document.createElement('option');
             optionElement.value = task.order_ID;
-            optionElement.textContent = toString(task.order_ID);
+            optionElement.textContent = optionElement.value.toString(task.order_ID);
             dropdown.appendChild(optionElement);
         });
     })
