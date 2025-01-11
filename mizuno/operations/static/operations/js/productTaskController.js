@@ -126,7 +126,7 @@ function addAction (){
     }
 
     // 發送 POST 請求到後端
-    fetch('http://localhost:8000/operation/api/create_production_tasks/', {
+    fetch('http://localhost:8000/operations/api/create_production_tasks/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

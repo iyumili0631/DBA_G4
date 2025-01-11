@@ -22,6 +22,7 @@ urlpatterns = [
 
     path('api/production_tasks/', views.TasksAPIView.as_view(), name='task_api'),
     path('api/production_tasks/<int:pk>/', views.TasksDetailAPIView.as_view(), name='task_api_detail'),
+    path('api/create_production_tasks/', views.CreateProductionTasksAPIView.as_view(), name='create_production_task'),
 
     path('api/products/', views.ProductsAPIView.as_view(), name='product_api'),
     path('api/products/<int:pk>/', views.ProductsDetailAPIView.as_view(), name='product_api_detail'),

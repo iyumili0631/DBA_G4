@@ -32,6 +32,12 @@ class TaskSerializer(serializers.ModelSerializer):
         model = Task
         fields = '__all__'
 
+class CreateProductionTaskSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Task
+        fields = ['order_ID', 'task_date', 'task_action', 'task_content', 'task_status']
+
+
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
@@ -53,11 +59,15 @@ class MaterialNameSerializer(serializers.ModelSerializer):
         fields = ['material_name']
 
 class ProductRestockSerializer(serializers.ModelSerializer):
+    product_name = serializers.CharField(source='product_name.product_name')
+
     class Meta:
         model = ProductRestock
         fields = '__all__'
 
 class MaterialRestockSerializer(serializers.ModelSerializer):
+    material_name = serializers.CharField(source='material_name.material_name')
+    
     class Meta:
         model = MaterialRestock
         fields = '__all__'

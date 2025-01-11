@@ -1,10 +1,16 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.views import Response
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 from rest_framework import status
 from rest_framework import generics
 from .models import BOM, ProductionOrder, Task, Product, Material, ProductRestock, MaterialRestock
 from .serializers import *
+from django.views import View
+import json
+from django.shortcuts import get_object_or_404
 
 
 # ==========================
@@ -142,6 +148,35 @@ class TasksDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
         serializer = self.get_serializer(instance)
         return Response(serializer.data, status=200)
 
+@method_decorator(csrf_exempt, name='dispatch')    
+class CreateProductionTasksAPIView(APIView):
+
+     def post(self, request):
+        try:
+            data = request.data
+            order_ID = data.get('order_ID')  # 接收來自前端的主鍵值
+            task_date = data.get('task_date')
+            task_action = data.get('task_action')
+            task_content = data.get('task_content')
+
+            if not all([order_ID, task_date, task_action, task_content]):
+                return JsonResponse({'success': False, 'error': '所有欄位均為必填！'}, status=400)
+
+            # 確保 order_ID 是 ProductionOrder 的實例
+            production_order = get_object_or_404(ProductionOrder, id=order_ID)
+
+            # 創建代辦事項
+            Task.objects.create(
+                order_ID=production_order,  # 這裡傳入的是實例
+                task_date=task_date,
+                task_action=task_action,
+                task_content=task_content
+            )
+
+            return JsonResponse({'success': True}, status=201)
+
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)}, status=500)
 
 # Products API
 class ProductsAPIView(generics.ListCreateAPIView):
