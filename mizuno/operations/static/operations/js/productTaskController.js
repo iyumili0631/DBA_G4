@@ -1,4 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
+    loadProductTask();    
+});
+
+function loadProductTask (){
     const productTaskList = document.getElementById('productTaskList').querySelector('tbody');
 
     // 獲取待辦事項資料
@@ -45,53 +49,93 @@ document.addEventListener('DOMContentLoaded', function () {
         .catch(error => {
             console.error('Error:', error);
         });
+}
 
-    // 更新訂單狀態的函數
-    window.updateTask = function (orderId) {
-        const task_action = document.getElementById(`action-select-${orderId}`).value;
-        const task_status = document.getElementById(`status-select-${orderId}`).value;
-        const taskActionCell = document.getElementById(`taskAction-${orderId}`);
-        const taskStatusCell = document.getElementById(`taskStatus-${orderId}`);
+function updateTask (orderId){
+    const task_action = document.getElementById(`action-select-${orderId}`).value;
+    const task_status = document.getElementById(`status-select-${orderId}`).value;
+    const taskActionCell = document.getElementById(`taskAction-${orderId}`);
+    const taskStatusCell = document.getElementById(`taskStatus-${orderId}`);
 
-        // 顯示正在更新的狀態
-        taskActionCell.textContent = '更新中...';
-        taskStatusCell.textContent = '更新中...';
+    // 顯示正在更新的狀態
+    taskActionCell.textContent = '更新中...';
+    taskStatusCell.textContent = '更新中...';
 
-        // 發送 PATCH 請求到後端
-        fetch(`http://localhost:8000/operations/api/production_tasks/${orderId}/`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': getCsrfToken() // 確保 CSRF 保護
-            },
-            body: JSON.stringify({ task_action, task_status })
+    // 發送 PATCH 請求到後端
+    fetch(`http://localhost:8000/operations/api/production_tasks/${orderId}/`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCsrfToken() // 確保 CSRF 保護
+        },
+        body: JSON.stringify({ task_action, task_status })
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to update task');
+            }
+            return response.json();
         })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Failed to update task');
-                }
-                return response.json();
-            })
-            .then(data => {
-                // 更新訂單狀態顯示
-                taskActionCell.textContent = data.task_action;
-                taskStatusCell.textContent = data.task_status;
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                taskActionCell.textContent = '更新失敗';
-                taskStatusCell.textContent = '更新失敗';
-            });
-    };
+        .then(data => {
+            // 更新訂單狀態顯示
+            taskActionCell.textContent = data.task_action;
+            taskStatusCell.textContent = data.task_status;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            taskActionCell.textContent = '更新失敗';
+            taskStatusCell.textContent = '更新失敗';
+        });
+}
 
-    // 獲取 CSRF token（如果需要）
-    function getCsrfToken() {
-        const csrfTokenInput = document.querySelector('[name=csrfmiddlewaretoken]');
-        if (!csrfTokenInput) {
-            console.error('CSRF Token not found!');
-            return '';
-        }
-        return csrfTokenInput.value;
+function addAction (){
+    const orderNum = document.getElementById('orderNum').value;
+    const actionDate = document.getElementById('actionDate').value;
+    const action = document.getElementById('action').value;
+    const actionContent = document.getElementById('actionContent').value;
+
+    if (!actionDate || !action) {
+        alert('請填寫所有欄位！');
+        return;
     }
-});
 
+    // 發送 POST 請求到後端
+    fetch('http://localhost:8000/operation/api/create_production_tasks/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCsrfToken(), // CSRF 保護
+        },
+        body: JSON.stringify({
+            order_date: orderDate,
+            product_name: productName,
+            product_quantity: Pquantity,
+            material_name: materialName,
+            material_quantity: Mquantity,
+            order_deadline: deadline
+        }),
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('新增顧客成功！');
+                // 更新顧客清單或重新載入頁面
+                loadCustomerList();
+            } else {
+                alert('新增顧客失敗：' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('新增顧客時發生錯誤');
+        });
+}
+
+function getCsrfToken() {
+    const csrfTokenInput = document.querySelector('[name=csrfmiddlewaretoken]');
+    if (!csrfTokenInput) {
+        console.error('CSRF Token not found!');
+        return '';
+    }
+    return csrfTokenInput.value;
+}
