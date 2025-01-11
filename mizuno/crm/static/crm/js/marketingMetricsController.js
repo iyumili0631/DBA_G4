@@ -2,19 +2,20 @@ document.addEventListener('DOMContentLoaded', function () {
     fetchChart();
 });
 
-function fetchChart(){
+async function fetchChart(){
     try {
         // 從後端 API 獲取數據
-        const response = fetch('http://localhost:8000/crm/api/marketing_metrics/');
+        const response = await fetch('http://localhost:8000/crm/api/marketing_metrics/');
         if (!response.ok) {
             throw new Error(`Failed to fetch data: ${response.statusText}`);
         }
 
-        const data = response.json();
+        const data = await response.json();
+        console.log('Fetched Data:', data);
 
-        const labels = data.map(MarketingMetrics.year, MarketingMetrics.quarter);
-        const values1 = data.map(MarketingMetrics.quarter_sales);
-        const values2 = data.map(MarketingMetrics.quarter_growth_rate);
+        const labels = data.map(MarketingMetrics => `${MarketingMetrics.year} Q${MarketingMetrics.quarter}`);
+        const values1 = data.map(MarketingMetrics => MarketingMetrics.quarter_sales);
+        const values2 = data.map(MarketingMetrics => MarketingMetrics.quarter_growth_rate);
 
         createBarChart (labels, values1);
         createLineChart (labels, values2);
@@ -60,7 +61,7 @@ function createBarChart(labels, values) {
                 y: {
                     title: {
                         display: true,
-                        text: 'Year, Quarter'
+                        text: 'Year and Quarter'
                     },
                     beginAtZero: true
                 }
@@ -104,7 +105,7 @@ function createLineChart (labels, values){
                 y: {
                     title: {
                         display: true,
-                        text: 'Year, Quarter'
+                        text: 'Year and Quarter'
                     },
                     beginAtZero: true
                 }
