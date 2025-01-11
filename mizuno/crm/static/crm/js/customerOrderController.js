@@ -83,9 +83,6 @@ function addCustomerOrder(){
     const orderContent = document.getElementById('orderContent').value;
     const quantity = document.getElementById('quantity').value;
 
-
-
-
     if (!customerNum || !customerName) {
         alert('請填寫所有欄位！');
         return;
@@ -112,7 +109,7 @@ function addCustomerOrder(){
             if (data.success) {
                 alert('新增顧客成功！');
                 // 更新顧客清單或重新載入頁面
-                loadCustomerList();
+                loadCustomerOrderList();
             } else {
                 alert('新增顧客失敗：' + data.error);
             }
