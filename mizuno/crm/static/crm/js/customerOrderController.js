@@ -135,8 +135,8 @@ fetch ('http://localhost:8000/crm/api/customer_names/')
 
         data.forEach(customerOrder => {
             const optionElement = document.createElement('option');
-            optionElement.value = customerOrder.customer;
-            optionElement.textContent = customerOrder.customer;
+            optionElement.value = customerOrder.name;
+            optionElement.textContent = customerOrder.name;
             dropdown.appendChild(optionElement);
         });
     })
