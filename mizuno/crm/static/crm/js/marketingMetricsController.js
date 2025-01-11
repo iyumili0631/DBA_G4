@@ -115,7 +115,7 @@ function createLineChart (labels, values){
 }
 
 function saveButton (){
-    fetch('http://localhost:8000/crm/marketing_metrics/update/', {
+    fetch('http://localhost:8000/crm/api/marketing_metrics/update/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
