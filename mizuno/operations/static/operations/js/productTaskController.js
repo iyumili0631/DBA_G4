@@ -51,18 +51,18 @@ function loadProductTask (){
         });
 }
 
-function updateTask (id){
-    const task_action = document.getElementById(`action-select-${id}`).value;
-    const task_status = document.getElementById(`status-select-${id}`).value;
-    const taskActionCell = document.getElementById(`taskAction-${id}`);
-    const taskStatusCell = document.getElementById(`taskStatus-${id}`);
+function updateTask (orderId){
+    const task_action = document.getElementById(`action-select-${orderId}`).value;
+    const task_status = document.getElementById(`status-select-${orderId}`).value;
+    const taskActionCell = document.getElementById(`taskAction-${orderId}`);
+    const taskStatusCell = document.getElementById(`taskStatus-${orderId}`);
 
     // 顯示正在更新的狀態
     taskActionCell.textContent = '更新中...';
     taskStatusCell.textContent = '更新中...';
 
     // 發送 PATCH 請求到後端
-    fetch(`http://localhost:8000/operations/api/production_tasks/${id}/`, {
+    fetch(`http://localhost:8000/operations/api/production_tasks/${orderId}/`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
@@ -101,10 +101,10 @@ fetch ('http://localhost:8000/operations/api/production_order_IDs/')
 
         dropdown.innerHTML = '<option value="">請選擇訂單編號</option>';
 
-        data.forEach(option => {
+        data.forEach(task => {
             const optionElement = document.createElement('option');
-            optionElement.value = option;
-            optionElement.textContent = option;
+            optionElement.value = task.order_ID;
+            //optionElement.textContent = option;
             dropdown.appendChild(optionElement);
         });
     })
