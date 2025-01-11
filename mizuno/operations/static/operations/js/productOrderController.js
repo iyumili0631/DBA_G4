@@ -85,7 +85,7 @@ function addProductOrder(){
     const productName = document.getElementById('productName').value;
     const Pquantity = document.getElementById('Pquantity').value;
     const materialName = document.getElementById('materialName').value;
-    const Mquantity = document.getElementById('Mquantity').value;
+    //const Mquantity = document.getElementById('Mquantity').value;
     const deadline = document.getElementById('deadline').value;
 
 
@@ -106,7 +106,7 @@ function addProductOrder(){
             product_name: productName,
             product_quantity: Pquantity,
             material_name: materialName,
-            material_quantity: Mquantity,
+            //material_quantity: Mquantity,
             order_deadline: deadline
         }),
     })
@@ -126,6 +126,55 @@ function addProductOrder(){
         });
 }
 
+fetch ('http://localhost:8000/operations/api/product_names/')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Network response was not ok: ${response.statusText}`);
+        }
+        return response.json();
+    })
+    
+    .then(data => {
+        const dropdown = document.getElementById('productName');
+
+        dropdown.innerHTML = '<option value="">請選擇產品</option>';
+
+        data.forEach(productionOrder => {
+            const optionElement = document.createElement('option');
+            optionElement.value = productionOrder.product_name;
+            optionElement.textContent = productionOrder.product_name;
+            dropdown.appendChild(optionElement);
+        });
+    })
+    .catch(error => {
+        console.error('Error fetching data:', error);
+        alert('無法加載產品資料，請稍後再試！');
+    });
+
+fetch ('http://localhost:8000/operations/api/material_names/')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Network response was not ok: ${response.statusText}`);
+        }
+        return response.json();
+    })
+    
+    .then(data => {
+        const dropdown = document.getElementById('materialName');
+
+        dropdown.innerHTML = '<option value="">請選擇物料</option>';
+
+        data.forEach(productionOrder => {
+            const optionElement = document.createElement('option');
+            optionElement.value = productionOrder.material_name;
+            optionElement.textContent = productionOrder.material_name;
+            dropdown.appendChild(optionElement);
+        });
+    })
+    .catch(error => {
+        console.error('Error fetching data:', error);
+        alert('無法加載物料資料，請稍後再試！');
+    });
 
 // 獲取 CSRF token（如果需要）
 function getCsrfToken() {
