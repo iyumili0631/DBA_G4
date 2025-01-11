@@ -150,7 +150,8 @@
                 </div>
                 <div class="right">
                     <h1 class="text-white">行銷指標</h1>
-                    
+                    {% csrf_token %}
+
                     <canvas id="salesChart" width="400" height="200" style='background:white'>季銷售額</canvas>
                     <canvas id="growthRateChart" width="400" height="200" style='background:white'>季銷售額成長率</canvas>
                     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

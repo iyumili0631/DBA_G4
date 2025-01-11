@@ -90,7 +90,7 @@ function addCustomerOrder(){
 
 
     // 發送 POST 請求到後端
-    fetch('http://localhost:8000/crm/api/customers/', {
+    fetch('http://localhost:8000/crm/api/create_customer_orders/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -119,6 +119,8 @@ function addCustomerOrder(){
             alert('新增顧客時發生錯誤');
         });
 }
+
+fetch ()
 
 
 function getCsrfToken() {
