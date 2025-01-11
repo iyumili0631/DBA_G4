@@ -14,6 +14,13 @@ async function fetchChart(){
         const data = await response.json();
         console.log('Fetched Data:', data);
 
+        data.sort((a, b) => {
+            if (a.year === b.year) {
+                return a.quarter - b.quarter; // 如果年份相同，按季度排序
+            }
+            return a.year - b.year; // 否則按年份排序
+        });
+
         const labels = data.map(MarketingMetrics => `${MarketingMetrics.year} ${MarketingMetrics.quarter}`);
         const values1 = data.map(MarketingMetrics => MarketingMetrics.quarter_sales);
         const values2 = data.map(MarketingMetrics => MarketingMetrics.quarter_growth_rate);
