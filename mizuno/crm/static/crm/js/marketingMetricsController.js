@@ -129,7 +129,7 @@ function saveButton (){
     .then(data => {
         if (data.status === 'success') {
             alert('重整成功！');
-            loadRFM();
+            fetchChart();
         } else {
             alert('重整失敗！');
         }
