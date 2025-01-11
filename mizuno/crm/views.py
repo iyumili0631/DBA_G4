@@ -7,8 +7,7 @@ from rest_framework.views import APIView
 from rest_framework.views import Response
 from rest_framework.views import status
 from .models import Customer, CustomerOrder, SalesTask, RFMAnalysis, MarketingMetrics
-from .serializers import (CustomerSerializer, CustomerOrderSerializer, SalesTaskSerializer, 
-                          RFMAnalysisSerializer, MarketingMetricsSerializer)
+from .serializers import *
 
 # ==========================
 # HTML 模板視圖
@@ -98,6 +97,11 @@ class CreateCustomerAPIView(APIView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
+class CustomerNameAPIView(APIView):
+    def get(self, request):
+        names = Customer.objects.all()
+        serializer = CustomerNameSerializer(names, many=True)
+        return Response(serializer.data)
 
 # 計算顧客指標 API
 class UpdateCustomerMetricsAPIView(APIView):

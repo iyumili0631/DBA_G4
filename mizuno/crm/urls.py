@@ -13,12 +13,17 @@ urlpatterns = [
     # 新增修改刪除查詢
     path('api/customers/', views.CustomerAPIView.as_view(), name='customer_api'),
     path('api/customers/create/', views.CreateCustomerAPIView.as_view(), name='create_customer_api'),
+    path('api/customer_names/', views.CustomerNameAPIView.as_view(), name='customer_names_api'),
+    
     path('api/customer_orders/', views.CustomerOrderAPIView.as_view(), name='customer_order_api'),
     path('api/customer_orders/<int:pk>/', views.CustomerOrderDetailAPIView.as_view(), name='customer_order_api_detail'),
+    
     path('api/sales_tasks/', views.SalesTaskAPIView.as_view(), name='sales_task_api'),
     path('api/sales_tasks/<int:pk>/', views.SalesTaskDetailAPIView.as_view(), name='sales_task_api_detail'),
+    
     path('api/rfm_analysis/', views.RFMAnalysisAPIView.as_view(), name='rfm_analysis_api'),
     path('api/rfm_analysis/<int:pk>/', views.RFMAnalysisDetailAPIView.as_view(), name='rfm_analysis_api_detail'),
+    
     path('api/marketing_metrics/', views.MarketingMetricsAPIView.as_view(), name='marketing_metrics_api'),
     path('api/marketing_metrics/<int:pk>/', views.MarketingMetricsDetailAPIView.as_view(), name='marketing_metrics_api_detail'),
 
