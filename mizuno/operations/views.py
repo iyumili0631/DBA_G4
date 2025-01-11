@@ -89,8 +89,13 @@ class CreateProductionOrderAPIView(APIView):
             material_name = data.get('material_name')
             order_deadline = data.get('order_deadline')
 
+            print(f"收到的 order_date: {order_date}")
+            print(f"收到的 product_name: {product_name}")
+            print(f"收到的 product_quantity: {product_quantity}")
+            print(f"收到的 material_name: {material_name}")
+            print(f"收到的 order_deadline: {order_deadline}")
 
-            if not all([order_date, product_name, product_quantity, material_name, order_deadline]):
+            if not all([order_ID, order_date, product_name, product_quantity, material_name, order_deadline]):
                 return JsonResponse({'success': False, 'error': '所有欄位均為必填！'}, status=400)
 
             # 確保關聯的實例
@@ -98,11 +103,11 @@ class CreateProductionOrderAPIView(APIView):
             material_name = get_object_or_404(Material, material_name=material_name)
 
             #計算物料數量
-            if product_name == "排球上衣":
+            if product_name.__eq__("排球上衣"):
                 material_quantity = int(product_quantity) * 217
-            elif product_name == "排球褲":
+            elif product_name.__eq__("排球褲"):
                 material_quantity = int(product_quantity) * 96
-            elif product_name == "運動厚底短襪（1雙）":
+            elif product_name.__eq__("運動厚底短襪（1雙）"):
                 material_quantity = int(product_quantity) * 30
             else:
                 return JsonResponse({'success': False, 'error': '未知的產品名稱！'}, status=400)
