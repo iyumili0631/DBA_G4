@@ -120,7 +120,30 @@ function addCustomerOrder(){
         });
 }
 
-fetch ()
+fetch ('http://localhost:8000/operations/api/customer_names/')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Network response was not ok: ${response.statusText}`);
+        }
+        return response.json();
+    })
+    
+    .then(data => {
+        const dropdown = document.getElementById('customerName');
+
+        dropdown.innerHTML = '<option value="">請選擇顧客</option>';
+
+        data.forEach(customerOrder => {
+            const optionElement = document.createElement('option');
+            optionElement.value = customerOrder.customer;
+            optionElement.textContent = customerOrder.customer;
+            dropdown.appendChild(optionElement);
+        });
+    })
+    .catch(error => {
+        console.error('Error fetching data:', error);
+        alert('無法加載顧客資料，請稍後再試！');
+    });
 
 
 function getCsrfToken() {
