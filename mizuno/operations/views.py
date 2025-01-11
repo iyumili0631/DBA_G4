@@ -79,11 +79,51 @@ class ProductionOrderAPIView(APIView):
 class CreateProductionOrderAPIView(APIView):
 
     def post(self, request):
-        serializer = CreateProductionOrderSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()  # 保存數據到數據庫
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            data = request.data
+            order_date = data.get('order_date')
+            product_name = data.get('product_name')
+            product_quantity = data.get('product_quantity')
+            material_name = data.get('material_name')
+            order_deadline = data.get('order_deadline')
+
+
+            if not all([order_date, product_name, product_quantity, material_name, order_deadline]):
+                return JsonResponse({'success': False, 'error': '所有欄位均為必填！'}, status=400)
+
+            # 確保關聯的實例
+            productName = get_object_or_404(Product, product_name=product_name)
+            materialName = get_object_or_404(Material, material_name=material_name)
+
+            #計算物料數量
+            if product_name == "排球上衣":
+                material_quantity = product_quantity * 217
+                return material_quantity
+            
+            if product_name == "排球褲":
+                material_quantity = product_quantity * 96
+                return material_quantity
+            
+            if product_name == "運動厚底短襪（1雙）":
+                material_quantity = product_quantity * 30
+                return material_quantity
+
+            # 創建代辦事項
+            ProductionOrder.objects.create(
+                order_ID=ProductionOrder.id,
+                order_date=order_date,
+                product_name=productName,
+                product_quantity=product_quantity,
+                material_name=materialName,
+                material_quantity=material_quantity,
+                order_status="處理中",
+                order_deadline=order_deadline
+            )
+
+            return JsonResponse({'success': True}, status=201)
+
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)}, status=500)
 
 class ProductionOrderDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = ProductionOrder.objects.all()
