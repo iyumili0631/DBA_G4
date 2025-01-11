@@ -161,6 +161,10 @@
                             <form id="addProductOrderForm" onsubmit="addProductOrder(); return false;">
                                 {% csrf_token %}
                                 <div class='mb-3'>
+                                    <label for="importNum" class="form-label inputfont">訂單編號</label>
+                                    <input type="text" class="form-control" id="orderNum" name="orderNum" placeholder="請輸入訂單編號" required>
+                                </div>
+                                <div class='mb-3'>
                                     <label for="importDate" class="form-label inputfont">訂單日期</label>
                                     <input type="date" class="form-control" id="orderDate" name="orderDate" placeholder="請輸入訂單日期" required>
                                 </div>

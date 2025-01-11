@@ -35,8 +35,6 @@ function loadProductOrder(){
                         </select>
                     </td>
                     <td>${productionOrder.order_deadline}</td>
-
-
                    
                 `;
 
@@ -81,13 +79,13 @@ function updateProductOrderStatus(orderId){
 }
 
 function addProductOrder(){
+    const orderNum = document.getElementById('orderNum').value;
     const orderDate = document.getElementById('orderDate').value;
     const productName = document.getElementById('productName').value;
     const Pquantity = document.getElementById('Pquantity').value;
     const materialName = document.getElementById('materialName').value;
     //const Mquantity = document.getElementById('Mquantity').value;
     const deadline = document.getElementById('deadline').value;
-
 
     if (!orderDate || !productName) {
         alert('請填寫所有欄位！');
@@ -102,6 +100,7 @@ function addProductOrder(){
             'X-CSRFToken': getCsrfToken(), // CSRF 保護
         },
         body: JSON.stringify({
+            order_ID: orderNum,
             order_date: orderDate,
             product_name: productName,
             product_quantity: Pquantity,
