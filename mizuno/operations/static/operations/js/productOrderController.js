@@ -72,7 +72,7 @@ function updateProductOrderStatus(orderId){
         .then(response => response.json())
         .then(data => {
             // 更新訂單狀態顯示
-            orderStatusCell.textContent = data.status;
+            orderStatusCell.textContent = data.order_status;
         })
         .catch(error => {
             console.error('Error:', error);
