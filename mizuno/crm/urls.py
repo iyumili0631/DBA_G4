@@ -12,7 +12,7 @@ urlpatterns = [
     # API 視圖 
     # 新增修改刪除查詢
     path('api/customers/', views.CustomerAPIView.as_view(), name='customer_api'),
-    path('api/customers_create/', views.CreateCustomerAPIView.as_view(), name='create_customer_api'),
+    path('api/customers/create/', views.CreateCustomerAPIView.as_view(), name='create_customer_api'),
     path('api/customer_orders/', views.CustomerOrderAPIView.as_view(), name='customer_order_api'),
     path('api/customer_orders/<int:pk>/', views.CustomerOrderDetailAPIView.as_view(), name='customer_order_api_detail'),
     path('api/sales_tasks/', views.SalesTaskAPIView.as_view(), name='sales_task_api'),

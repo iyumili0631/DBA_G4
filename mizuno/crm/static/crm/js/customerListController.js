@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
+
 function loadCustomerList() {
     // 手動觸發顧客列表更新
     const customerListTable = document.getElementById('customerList').querySelector('tbody');
@@ -19,7 +20,7 @@ function loadCustomerList() {
             data.forEach(customer => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td>${customer.id}</td>
+                    <td>${customer.customer_ID}</td>
                     <td>${customer.name}</td>
                     <td>${customer.last_purchase_date || 'N/A'}</td>
                     <td>${customer.avg_purchase_interval || 'N/A'}</td>
@@ -37,72 +38,50 @@ function loadCustomerList() {
 
 
 function addCustomer() {
-    // 獲取顧客姓名
-    const name = document.getElementById('customerName').value;
-    
-    // 檢查顧客姓名是否輸入
-    if (!name) {
-        alert("顧客姓名為必填欄位！");
-        return;  // 如果沒有輸入顧客姓名，阻止表單提交
+    const customerNum = parseInt(document.getElementById('customerNum').value, 10);
+    const customerName = document.getElementById('customerName').value;
+
+
+    if (!customerNum || !customerName) {
+        alert('請填寫所有欄位！');
+        return;
     }
 
-    // 準備表單資料，其他欄位使用預設值
-    const formData = {
-        name: name,  // 顧客姓名
-        last_purchase_date: null,  // 預設值
-        avg_purchase_interval: null,  // 預設值
-        avg_purchase_value: null,  // 預設值
-        avg_customer_years: 3.0,  // 預設值
-        lifetime_value: null,  // 預設值
-    };
 
-    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-
-    // 使用 axios 提交資料
-    axios.post('http://localhost:8000/crm/api/customers_create/', formData,{
+    // 發送 POST 請求到後端
+    fetch('http://localhost:8000/crm/api/customers/create/', {
+        method: 'POST',
         headers: {
-                'X-CSRFToken': csrfToken
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCsrfToken(), // CSRF 保護
+        },
+        body: JSON.stringify({
+            customer_ID: customerNum,
+            name: customerName
+        }),
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('新增顧客成功！');
+                // 更新顧客清單或重新載入頁面
+                loadCustomerList();
+            } else {
+                alert('新增顧客失敗：' + data.error);
             }
         })
-        .then(response => {
-            console.log('新增成功:', response.data);
-            alert('顧客新增成功！');
-            // 可以更新顧客列表或者清空表單等
-            updateCustomerList(response.data);
-        })
         .catch(error => {
-            console.error('新增失敗:', error);
-            alert('新增失敗，請檢查資料！');
+            console.error('Error:', error);
+            alert('新增顧客時發生錯誤');
         });
 }
 
 
-function updateCustomerList(customer) {
-    const tableBody = document.querySelector('customerList tbody');
-    const newRow = `
-        <tr>
-            <td>${customer.id}</td>
-            <td>${customer.name}</td>
-            <td>${customer.last_purchase_date || 'N/A'}</td>
-            <td>${customer.avg_purchase_interval || 'N/A'}</td>
-            <td>${customer.avg_purchase_value || 'N/A'}</td>
-            <td>${customer.avg_customer_years || 'N/A'}</td>
-            <td>${customer.lifetime_value || 'N/A'}</td>
-        </tr>
-    `;
-    tableBody.insertAdjacentHTML('beforeend', newRow);
-} 
-
-
 function getCsrfToken() {
-    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]');
-    return csrfToken ? csrfToken.value : '';
+    const csrfTokenMeta = document.querySelector('meta[name="csrf-token"]');
+    return csrfTokenMeta ? csrfTokenMeta.getAttribute('content') : '';
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-    // 在此處調用初始化函數
-    loadCustomerList();
-});
 
 
 

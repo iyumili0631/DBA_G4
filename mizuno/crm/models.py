@@ -12,12 +12,13 @@ from django.utils import timezone
 
 # 顧客清單
 class Customer(models.Model):
+    customer_ID = models.IntegerField(unique = True) # 確保 customer_ID 唯一
     name = models.CharField(max_length=255)
     last_purchase_date = models.DateField(null = True, blank = True)
-    avg_purchase_interval = models.IntegerField(null = True, blank = True)  # 平均購買間隔（天）
-    avg_purchase_value = models.FloatField(null = True, blank = True) # 平均客單價（NTD）
-    avg_customer_years = models.FloatField(default = 3) #平均客戶關係維持年數（年） 預設為3年
-    lifetime_value = models.FloatField(null = True, blank = True) #CLV 預設為0
+    avg_purchase_interval = models.IntegerField(default = 0, blank = True)  # 平均購買間隔（天）
+    avg_purchase_value = models.FloatField(default = 0, blank = True) # 平均客單價（NTD）
+    avg_customer_years = models.FloatField(default = 3, blank = True) #平均客戶關係維持年數（年） 預設為3年
+    lifetime_value = models.FloatField(default = 0, blank = True) #CLV 預設為0
     
     # 標志位，避免遞歸調用
     #_is_saving = False
@@ -81,7 +82,7 @@ class Customer(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.customer_ID} - {self.name}"
     
     def __repr__(self):
         return self.name
@@ -279,7 +280,7 @@ class MarketingMetrics(models.Model):
                     growth_data[year][quarter] = (
                         (current_sales - previous_sales) / previous_sales * 100
                         if previous_sales > 0
-                        else 0.00  # 或 'N/A'
+                        else 0.0  # 或 'N/A'
                     )
 
         return growth_data
