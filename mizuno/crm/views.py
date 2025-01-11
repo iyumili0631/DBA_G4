@@ -168,6 +168,13 @@ class CreateCustomerOrdersAPIView(APIView):
             if not all([customer, order_ID, order_date, order_product, order_quantity]):
                 return JsonResponse({'success': False, 'error': '所有欄位均為必填！'}, status=400)
 
+            # 確保 order_ID 和 order_quantity 是數字
+            try:
+                order_ID = int(order_ID)
+                order_quantity = int(order_quantity)
+            except ValueError:
+                return JsonResponse({'success': False, 'error': '訂單編號和訂購量必須為數字！'}, status=400)
+            
             # 確保關聯的實例
             customer = get_object_or_404(Customer, name=customer)
 
@@ -177,7 +184,13 @@ class CreateCustomerOrdersAPIView(APIView):
             # 根據 product_name 查找 Product 實例
             order_product = get_object_or_404(Product, product_name=order_product)
 
-            # 假設 order_date 已經是 datetime 對象
+            # 將 order_date 轉換為 datetime 對象
+            try:
+                order_date = datetime.strptime(order_date, '%Y-%m-%d').date()  # 假設前端傳入的格式為 "YYYY-MM-DD"
+            except ValueError:
+                return JsonResponse({'success': False, 'error': '無效的日期格式，應為 YYYY-MM-DD'}, status=400)
+
+            # 計算要求送達日期
             required_delivery_date = order_date + timedelta(days=5)
 
             # 創建顧客訂單
