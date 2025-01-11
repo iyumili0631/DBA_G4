@@ -112,7 +112,7 @@ class CreateProductionOrderAPIView(APIView):
             else:
                 return JsonResponse({'success': False, 'error': '未知的產品名稱！'}, status=400)
 
-            # 創建代辦事項
+            # 創建生產訂單
             ProductionOrder.objects.create(
                 order_ID=order_ID,
                 order_date=order_date,

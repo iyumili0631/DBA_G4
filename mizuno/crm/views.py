@@ -8,6 +8,9 @@ from rest_framework.views import Response
 from rest_framework.views import status
 from .models import Customer, CustomerOrder, SalesTask, RFMAnalysis, MarketingMetrics
 from .serializers import *
+from django.apps import apps
+from django.shortcuts import get_object_or_404
+from datetime import datetime, timedelta
 
 # ==========================
 # HTML 模板視圖
@@ -147,6 +150,51 @@ class CustomerOrderDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
 
         serializer = self.get_serializer(instance)
         return Response(serializer.data, status=200)
+
+class CreateCustomerOrdersAPIView(APIView):
+
+    def post(self, request):
+        try:
+            
+            data = request.data
+            customer = data.get('customer')
+            order_ID = data.get('order_ID')
+            order_date = data.get('order_date')
+            order_product = data.get('order_product')
+            order_quantity = data.get('order_quantity')
+            
+
+            if not all([customer, order_ID, order_date, order_product, order_quantity]):
+                return JsonResponse({'success': False, 'error': '所有欄位均為必填！'}, status=400)
+
+            # 確保關聯的實例
+            customer = get_object_or_404(Customer, name=customer)
+
+            # 獲取 operations 中的 Product 模型
+            Product = apps.get_model('operations', 'Product')
+
+            # 根據 product_name 查找 Product 實例
+            order_product = get_object_or_404(Product, product_name=order_product)
+
+            # 假設 order_date 已經是 datetime 對象
+            required_delivery_date = order_date + timedelta(days=5)
+
+            # 創建顧客訂單
+            CustomerOrder.objects.create(
+                customer=customer,
+                order_ID=order_ID,
+                order_date=order_date,
+                order_product=order_product,
+                order_quantity=order_quantity,
+                required_delivery_date=required_delivery_date,
+                status="處理中",
+                
+            )
+
+            return JsonResponse({'success': True}, status=201)
+
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)}, status=500)
 
 # Sales Tasks API
 class SalesTaskAPIView(generics.ListCreateAPIView):

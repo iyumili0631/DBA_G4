@@ -17,7 +17,8 @@ urlpatterns = [
     
     path('api/customer_orders/', views.CustomerOrderAPIView.as_view(), name='customer_order_api'),
     path('api/customer_orders/<int:pk>/', views.CustomerOrderDetailAPIView.as_view(), name='customer_order_api_detail'),
-    
+    path('api/create_customer_orders/', views.CreateCustomerOrdersAPIView.as_view(), name='create_customer_orders'),
+
     path('api/sales_tasks/', views.SalesTaskAPIView.as_view(), name='sales_task_api'),
     path('api/sales_tasks/<int:pk>/', views.SalesTaskDetailAPIView.as_view(), name='sales_task_api_detail'),
     
