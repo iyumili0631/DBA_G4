@@ -159,6 +159,7 @@
                         </div>
                         <div class="card-body">
                             <form id="addOrderForm" onsubmit="addCustomerOrder(); return false;">
+                                {% csrf_token %}
                                 <div class='mb-3'>
                                     <label for="importName" class="form-label inputfont">顧客姓名</label>
                                     <select class="form-control input-col" id="customerName" name="customerName[]" required>
