@@ -51,18 +51,18 @@ function loadProductTask (){
         });
 }
 
-function updateTask (orderId){
-    const task_action = document.getElementById(`action-select-${orderId}`).value;
-    const task_status = document.getElementById(`status-select-${orderId}`).value;
-    const taskActionCell = document.getElementById(`taskAction-${orderId}`);
-    const taskStatusCell = document.getElementById(`taskStatus-${orderId}`);
+function updateTask (id){
+    const task_action = document.getElementById(`action-select-${id}`).value;
+    const task_status = document.getElementById(`status-select-${id}`).value;
+    const taskActionCell = document.getElementById(`taskAction-${id}`);
+    const taskStatusCell = document.getElementById(`taskStatus-${id}`);
 
     // 顯示正在更新的狀態
     taskActionCell.textContent = '更新中...';
     taskStatusCell.textContent = '更新中...';
 
     // 發送 PATCH 請求到後端
-    fetch(`http://localhost:8000/operations/api/production_tasks/${orderId}/`, {
+    fetch(`http://localhost:8000/operations/api/production_tasks/${id}/`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
