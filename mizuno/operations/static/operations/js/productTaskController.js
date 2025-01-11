@@ -88,6 +88,32 @@ function updateTask (orderId){
         });
 }
 
+fetch ('http://localhost:8000/operations/api/production_order_IDs/')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Network response was not ok: ${response.statusText}`);
+        }
+        return response.json();
+    })
+    
+    .then(data => {
+        const dropdown = document.getElementById('orderNum');
+
+        dropdown.innerHTML = '<option value="">請選擇訂單編號</option>';
+
+        data.forEach(option => {
+            const optionElement = document.createElement('option');
+            optionElement.value = option;
+            optionElement.textContent = option;
+            dropdown.appendChild(optionElement);
+        });
+    })
+    .catch(error => {
+        console.error('Error fetching data:', error);
+        alert('無法加載訂單資料，請稍後再試！');
+    });
+
+
 function addAction (){
     const orderNum = document.getElementById('orderNum').value;
     const actionDate = document.getElementById('actionDate').value;
