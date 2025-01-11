@@ -134,7 +134,8 @@ function saveButton (){
     })
     .then(response => response.json())
     .then(data => {
-        if (data.status === 'success') {
+        console.log('API Response:', data);  // 在控制台顯示響應
+        if (data.message === 'Marketing metrics updated successfully') {
             alert('重整成功！');
             fetchChart();
         } else {

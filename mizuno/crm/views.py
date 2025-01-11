@@ -275,17 +275,34 @@ class MarketingMetricsDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = MarketingMetrics.objects.all()
     serializer_class = MarketingMetricsSerializer
 
-@method_decorator(csrf_exempt, name='dispatch')
 class UpdateMarketingMetricsAPIView(APIView):
     """
     手動更新 MarketingMetrics 表中的行銷數據
     """
     def post(self, request):
         try:
+            # 查看接收到的數據
+            print("Request data:", request.data)  # 查看後端接收到的數據
+
+            # 確保從前端接收的數據包含 'sales_data' 和 'growth_data'
+            sales_data = request.data.get('sales_data', {})
+            growth_data = request.data.get('growth_data', {})
+
+            # 查看解析後的數據
+            print("Parsed sales_data:", sales_data)
+            print("Parsed growth_data:", growth_data)
+
+            # 確保數據不為空
+            if not sales_data or not growth_data:
+                return Response(
+                    {"error": "Missing sales_data or growth_data"},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
             # 計算行銷數據
             sales_data = MarketingMetrics.calculate_marketing_trends()
             growth_data = MarketingMetrics.calculate_growth_rate(sales_data)
-            
+
             # 儲存計算後的數據
             MarketingMetrics.save_marketing_metrics(sales_data, growth_data)
 

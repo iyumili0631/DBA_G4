@@ -273,15 +273,12 @@ class MarketingMetrics(models.Model):
             growth_data[year] = {}
             for quarter in range(1, 5):
                 current_sales = quarters[quarter]
-                if quarter == 1:
-                    growth_data[year][quarter] = None  # 無前季度數據
-                else:
-                    previous_sales = quarters[quarter - 1]
-                    growth_data[year][quarter] = (
-                        (current_sales - previous_sales) / previous_sales * 100
-                        if previous_sales > 0
-                        else 0.0  # 或 'N/A'
-                    )
+                previous_sales = quarters[quarter - 1]
+                growth_data[year][quarter] = (
+                    (current_sales - previous_sales) / previous_sales * 100
+                    if previous_sales > 0
+                    else 0.0  # 或 'N/A'
+                )
 
         return growth_data
     
