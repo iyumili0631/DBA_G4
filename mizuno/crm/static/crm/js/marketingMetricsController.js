@@ -13,7 +13,7 @@ async function fetchChart(){
         const data = await response.json();
         console.log('Fetched Data:', data);
 
-        const labels = data.map(MarketingMetrics => `${MarketingMetrics.year} Q${MarketingMetrics.quarter}`);
+        const labels = data.map(MarketingMetrics => `${MarketingMetrics.year} ${MarketingMetrics.quarter}`);
         const values1 = data.map(MarketingMetrics => MarketingMetrics.quarter_sales);
         const values2 = data.map(MarketingMetrics => MarketingMetrics.quarter_growth_rate);
 
@@ -34,7 +34,7 @@ function createBarChart(labels, values) {
         data: {
             labels: labels,
             datasets: [{
-                label: 'Marketing Metrics',
+                label: '季銷售額',
                 data: values,
                 borderColor: 'rgb(59, 62, 77)',
                 backgroundColor: ' #405580',
@@ -55,13 +55,13 @@ function createBarChart(labels, values) {
                 x: {
                     title: {
                         display: true,
-                        text: 'Quarter Sales'
+                        text: 'Year and Quarter'
                     }
                 },
                 y: {
                     title: {
                         display: true,
-                        text: 'Year and Quarter'
+                        text: 'Quarter Sales'
                     },
                     beginAtZero: true
                 }
@@ -77,7 +77,7 @@ function createLineChart (labels, values){
         data: {
             labels: labels,
             datasets: [{
-                label: 'Marketing Metrics',
+                label: '季銷售額成長率',
                 data: values,
                 borderColor: '#405580',
                 backgroundColor: 'rgb(255, 255, 255)',
@@ -99,13 +99,13 @@ function createLineChart (labels, values){
                 x: {
                     title: {
                         display: true,
-                        text: 'Quarter Growth Rate'
+                        text: 'Year and Quarter'
                     }
                 },
                 y: {
                     title: {
                         display: true,
-                        text: 'Year and Quarter'
+                        text: 'Quarter Growth Rate'
                     },
                     beginAtZero: true
                 }
