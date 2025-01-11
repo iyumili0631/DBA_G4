@@ -176,7 +176,7 @@ class RFMAnalysis(models.Model):
                             monetary=monetary,
                             rfm_value=rfm_value,
                             customer_group=customer_group,
-                            most_valuable_customer=customer.name if customer_group == '高價值顧客' else '',
+                            most_valuable_customer="O" if customer_group == '高價值顧客' else '',
                             marketing_strategy_suggestion=suggestion
                         )
                     )
