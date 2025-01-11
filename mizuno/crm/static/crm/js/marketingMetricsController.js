@@ -123,7 +123,7 @@ function saveButton (){
             'Content-Type': 'application/json',
             'X-CSRFToken': getCsrfToken(),
         },
-        
+
     })
     .then(response => response.json())
     .then(data => {
