@@ -121,7 +121,7 @@ function saveButton (){
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'X-CSRFToken': csrfToken,
+            'X-CSRFToken': getCsrfToken(),
         },
         
     })

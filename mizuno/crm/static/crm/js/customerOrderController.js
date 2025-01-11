@@ -120,7 +120,7 @@ function addCustomerOrder(){
         });
 }
 
-fetch ('http://localhost:8000/operations/api/customer_names/')
+fetch ('http://localhost:8000/crm/api/customer_names/')
     .then(response => {
         if (!response.ok) {
             throw new Error(`Network response was not ok: ${response.statusText}`);
