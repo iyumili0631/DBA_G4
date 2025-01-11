@@ -80,7 +80,9 @@ class CreateProductionOrderAPIView(APIView):
 
     def post(self, request):
         try:
+            
             data = request.data
+            order_ID = data.get('order_ID')
             order_date = data.get('order_date')
             product_name = data.get('product_name')
             product_quantity = data.get('product_quantity')
@@ -92,29 +94,26 @@ class CreateProductionOrderAPIView(APIView):
                 return JsonResponse({'success': False, 'error': '所有欄位均為必填！'}, status=400)
 
             # 確保關聯的實例
-            productName = get_object_or_404(Product, product_name=product_name)
-            materialName = get_object_or_404(Material, material_name=material_name)
+            product_name = get_object_or_404(Product, product_name=product_name)
+            material_name = get_object_or_404(Material, material_name=material_name)
 
             #計算物料數量
             if product_name == "排球上衣":
-                material_quantity = product_quantity * 217
-                return material_quantity
-            
-            if product_name == "排球褲":
-                material_quantity = product_quantity * 96
-                return material_quantity
-            
-            if product_name == "運動厚底短襪（1雙）":
-                material_quantity = product_quantity * 30
-                return material_quantity
+                material_quantity = int(product_quantity) * 217
+            elif product_name == "排球褲":
+                material_quantity = int(product_quantity) * 96
+            elif product_name == "運動厚底短襪（1雙）":
+                material_quantity = int(product_quantity) * 30
+            else:
+                return JsonResponse({'success': False, 'error': '未知的產品名稱！'}, status=400)
 
             # 創建代辦事項
             ProductionOrder.objects.create(
-                order_ID=ProductionOrder.id,
+                order_ID=order_ID,
                 order_date=order_date,
-                product_name=productName,
+                product_name=product_name,
                 product_quantity=product_quantity,
-                material_name=materialName,
+                material_name=material_name,
                 material_quantity=material_quantity,
                 order_status="處理中",
                 order_deadline=order_deadline

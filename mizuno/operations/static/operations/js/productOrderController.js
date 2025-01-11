@@ -93,7 +93,7 @@ function addProductOrder(){
     }
 
     // 發送 POST 請求到後端
-    fetch('http://localhost:8000/operation/api/create_production_orders/', {
+    fetch('http://localhost:8000/operations/api/create_production_orders/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -112,16 +112,16 @@ function addProductOrder(){
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                alert('新增顧客成功！');
+                alert('新增訂單成功！');
                 // 更新顧客清單或重新載入頁面
                 loadProductOrder();
             } else {
-                alert('新增顧客失敗：' + data.error);
+                alert('新增訂單失敗：' + data.error);
             }
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('新增顧客時發生錯誤');
+            alert('新增訂單時發生錯誤');
         });
 }
 
