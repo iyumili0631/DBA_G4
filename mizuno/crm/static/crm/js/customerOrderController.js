@@ -145,6 +145,31 @@ fetch ('http://localhost:8000/crm/api/customer_names/')
         alert('無法加載顧客資料，請稍後再試！');
     });
 
+fetch ('http://localhost:8000/operations/api/product_names/')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Network response was not ok: ${response.statusText}`);
+        }
+        return response.json();
+    })
+    
+    .then(data => {
+        const dropdown = document.getElementById('orderContent');
+
+        dropdown.innerHTML = '<option value="">請選擇訂購的產品</option>';
+
+        data.forEach(product => {
+            const optionElement = document.createElement('option');
+            optionElement.value = product.product_name;
+            optionElement.textContent = product.product_name;
+            dropdown.appendChild(optionElement);
+        });
+    })
+    .catch(error => {
+        console.error('Error fetching data:', error);
+        alert('無法加載產品資料，請稍後再試！');
+    });
+
 
 function getCsrfToken() {
     const csrfTokenInput = document.querySelector('[name=csrfmiddlewaretoken]');
