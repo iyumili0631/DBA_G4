@@ -2,9 +2,6 @@ document.addEventListener('DOMContentLoaded', function () {
     loadCustomerList(); // 初始化顧客清單
 });
 
-
-
-
 function loadCustomerList() {
     // 手動觸發顧客列表更新
     const customerListTable = document.getElementById('customerList').querySelector('tbody');
@@ -74,6 +71,52 @@ function addCustomer() {
             console.error('Error:', error);
             alert('新增顧客時發生錯誤');
         });
+}
+
+async function fetchCustomer(){
+    try{
+        const response = await fetch('http://localhost:8000/crm/api/customers/')
+        if (!response.ok){
+            throw new Error(`Failed to fetch data: ${response.statusText}`);
+        }
+        
+        const data = await response.json();
+        console.log('Fetched Data:', data);
+
+        customerID = data.map(item => item.customer_ID)
+        
+        refreshCustomer(customerID);
+    }
+    catch (error){
+        console.error('Error:', error);
+    }
+}
+
+function refreshCustomer(customerIDs){
+
+    //每個id發送一次
+    customerIDs.forEach(async (id) => {
+        try {
+            const response = await fetch(`http://localhost:8000/crm/api/customers/${id}/update_metrics/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCsrfToken(), 
+                },
+            });
+
+            const data = await response.json();
+            console.log(`API Response for Customer ${id}:`, data);
+
+            if (data.message === 'Customer List updated successfully') {
+                console.log(`Customer ${id} updated successfully.`);
+            } else {
+                console.error(`Failed to update Customer ${id}:`, data);
+            }
+        } catch (error) {
+            console.error(`Error updating Customer ${id}:`, error);
+        }
+    });
 }
 
 

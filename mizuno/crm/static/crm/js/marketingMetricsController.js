@@ -122,7 +122,7 @@ function createLineChart (labels, values){
     });
 }
 
-function saveButton (){
+function refreshChart(){
 
     fetch('http://localhost:8000/crm/api/marketing_metrics/update/', {
         method: 'POST',
