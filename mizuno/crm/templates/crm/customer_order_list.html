@@ -25,6 +25,24 @@
    
         <style type="text/css">
 
+            #customer_order_list {
+                width: 100%; 
+                table-layout: fixed; 
+                background-color: #405580;
+            }
+
+            thead th, tbody td{
+                white-space: nowrap; 
+                overflow: hidden; 
+                text-overflow: ellipsis; 
+            }
+
+            th, td{
+                text-align: center; 
+                color: white; 
+                padding: 10px;
+            }
+
 
             a{
                 text-decoration: none;
@@ -73,6 +91,7 @@
             .right{
                 flex: 2;
                 padding-left: 5%;
+                overflow-x: auto;
             }
 
 
