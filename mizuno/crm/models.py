@@ -149,7 +149,7 @@ class RFMAnalysis(models.Model):
                     # 計算 RFM 分數
                     r_score = 3 if recency <= 30 else (2 if recency <= 90 else 1)
                     f_score = 3 if frequency >= 5 else (2 if frequency >= 3 else 1)
-                    m_score = 3 if monetary >= 3000 else (2 if monetary >= 1500 else 1)
+                    m_score = 3 if monetary >= 6000 else (2 if monetary >= 3000 else 1)
 
                     rfm_value = r_score + f_score + m_score
 
@@ -273,12 +273,15 @@ class MarketingMetrics(models.Model):
             growth_data[year] = {}
             for quarter in range(1, 5):
                 current_sales = quarters[quarter]
-                previous_sales = quarters[quarter - 1]
-                growth_data[year][quarter] = (
-                    (current_sales - previous_sales) / previous_sales * 100
-                    if previous_sales > 0
-                    else 0.0  # 或 'N/A'
-                )
+                if quarter == 1:
+                    growth_data[year][quarter] = None  # 無前季度數據
+                else:
+                    previous_sales = quarters[quarter - 1]
+                    growth_data[year][quarter] = (
+                        (current_sales - previous_sales) / previous_sales * 100
+                        if previous_sales > 0
+                        else 0.0  # 或 'N/A'
+                    )
 
         return growth_data
     

@@ -85,19 +85,21 @@ async function fetchCustomer(){
 
         customerID = data.map(item => item.customer_ID)
         
-        refreshCustomer(customerID);
+        await refreshCustomer(customerID); // 等待所有顧客更新完成
+        loadCustomerList(); // 更新顧客列表
     }
     catch (error){
         console.error('Error:', error);
     }
+
 }
 
 function refreshCustomer(customerIDs){
 
     //每個id發送一次
-    customerIDs.forEach(async (id) => {
+    customerIDs.forEach(async (customer_ID) => {
         try {
-            const response = await fetch(`http://localhost:8000/crm/api/customers/${id}/update_metrics/`, {
+            const response = await fetch(`http://localhost:8000/crm/api/customers/${customer_ID}/update_metrics/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -106,18 +108,19 @@ function refreshCustomer(customerIDs){
             });
 
             const data = await response.json();
-            console.log(`API Response for Customer ${id}:`, data);
+            console.log(`API Response for Customer ${customer_ID}:`, data);
 
-            if (data.message === 'Customer List updated successfully') {
-                console.log(`Customer ${id} updated successfully.`);
+            if (data.message === 'Customer metrics updated successfully') {
+                console.log(`Customer ${customer_ID} updated successfully.`);
             } else {
-                console.error(`Failed to update Customer ${id}:`, data);
+                console.error(`Failed to update Customer ${customer_ID}:`, data);
             }
         } catch (error) {
-            console.error(`Error updating Customer ${id}:`, error);
+            console.error(`Error updating Customer ${customer_ID}:`, error);
         }
     });
-
+    
+    
 }
 
 

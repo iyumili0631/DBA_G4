@@ -113,6 +113,9 @@ class UpdateCustomerMetricsAPIView(APIView):
         try:
             customer = Customer.objects.get(customer_ID=customer_ID)
             customer.update_purchase_metrics()
+            customer.calculate_clv()
+            customer.save()
+
             return Response({
                 "message": "Customer metrics updated successfully",
                 "customer_ID": customer.customer_ID,
