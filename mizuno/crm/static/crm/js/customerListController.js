@@ -117,6 +117,7 @@ function refreshCustomer(customerIDs){
             console.error(`Error updating Customer ${id}:`, error);
         }
     });
+
 }
 
 
