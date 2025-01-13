@@ -169,8 +169,8 @@
                 <div class="right">
                     <h1 class="text-white">存貨資訊</h1>
                     <br>
-
-                    <div><button type='button' class="btn btn-light" id='refreshInventory' onclick="refreshInventory()">刷新</button></div>
+                    {% csrf_token %}
+                    <div><button type='button' class="btn btn-light" id='refreshInventory' onclick="refreshInventory()">刷新補貨機制</button></div>
 
                     <h2 class='text-white' style='font-size: 20px'>產品</h2>
                     <table id='productList' class='table text-white'>
@@ -201,7 +201,7 @@
                                 <th scope="col">產品名稱</th>
                                 <th scope="col">預測</th>
                                 <th scope="col">補貨日期</th>
-                                <th scope="col">補貨數量</th>
+                                <th scope="col">需補貨數量</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -242,7 +242,7 @@
                                 <th scope="col">物料名稱</th>
                                 <th scope="col">預測</th>
                                 <th scope="col">補貨日期</th>
-                                <th scope="col">補貨數量</th>
+                                <th scope="col">需補貨數量</th>
                             </tr>
                         </thead>
                         <tbody>

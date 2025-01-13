@@ -262,88 +262,38 @@ class MaterialNameAPIView(APIView):
         return Response(serializer.data)
 
 # Product Restock API
-class ProductRestockAPIView(generics.ListCreateAPIView):
-    queryset = ProductRestock.objects.all()
-    serializer_class = ProductRestockSerializer
+class ProductRestockAPIView(APIView):
+    def get(self, request):
+        restocks = ProductRestock.objects.all()
+        serializer = ProductRestockSerializer(restocks, many=True)
+        return Response(serializer.data, status=200)
 
 class ProductRestockDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = ProductRestock.objects.all()
     serializer_class = ProductRestockSerializer
 
 # Material Restock API
-class MaterialRestockAPIView(generics.ListCreateAPIView):
-    queryset = MaterialRestock.objects.all()
-    serializer_class = MaterialRestockSerializer
+class MaterialRestockAPIView(APIView):
+    def get(self, request):
+        restocks = MaterialRestock.objects.all()
+        serializer = MaterialRestockSerializer(restocks, many=True)
+        return Response(serializer.data, status=200)
 
 class MaterialRestockDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = MaterialRestock.objects.all()
     serializer_class = MaterialRestockSerializer
 
 
-class Forecast(APIView):
-    # Helper function to calculate moving average
-    def calculate_moving_average(product_name, start_date, window_size=3):
-        """
-        Calculate the moving average for the given product within a specified date range.
-        Args:
-            product_name (str): Name of the product.
-            start_date (datetime): Start date for the data range.
-            window_size (int): Number of months for moving average calculation (default is 3).
+from .forecast_logic import calculate_product_forecast_and_restock, calculate_material_forecast_and_restock
 
-        Returns:
-            float: The moving average of sales for the product.
-        """
-        total_sales = 0
-        valid_months = 0
-
-        for i in range(window_size):
-            month_start = (start_date - timedelta(days=30 * i)).replace(day=1)
-            month_end = (month_start + timedelta(days=32)).replace(day=1) - timedelta(days=1)
-
-            sales = CustomerOrder.objects.filter(
-                product_name=product_name,
-                order_date__gte=month_start,
-                order_date__lte=month_end
-            ).aggregate(total=Sum('quantity'))['total']
-
-            if sales:
-                total_sales += sales
-                valid_months += 1
-
-        return total_sales / valid_months if valid_months > 0 else 0
-
-
-    def forecast_view(request):
-        """
-        View function to display demand forecasts and restock quantities for the products.
-        """
-        today = datetime.today()
-        start_date = today.replace(day=1)
-
-        products = ["排球上衣", "排球褲", "運動厚底短襪（1雙）"]
-        forecasts = {}
-
-        for product in products:
-            forecast_quantity = calculate_moving_average(product, start_date)
-            forecasts[product] = forecast_quantity
-
-        context = {
-            'forecasts': forecasts,
-            'next_restock_date': (today + timedelta(days=1)).replace(day=1)
-        }
-        return render(request, context)
-
-
-def refresh_inventory(request):
-    if request.method == 'POST':
-        products = Product.objects.all()
-        for product in products:
-            if product.product_inventory < product.product_safe_inventory:
-                product.product_inventory_status = '低於安全庫存'
-            elif product.product_inventory == 0:
-                product.product_inventory_status = '缺貨'
-            else:
-                product.product_inventory_status = '充足'
-            product.save()
-        return JsonResponse({'message': '庫存狀態已刷新', 'status': 'success'})
-    return JsonResponse({'message': 'Invalid request method', 'status': 'error'}, status=400)
+@method_decorator(csrf_exempt, name='dispatch')
+class UpdateRestockPlanAPIView(APIView):
+    def post(self, request, *args, **kwargs):
+        try:
+            # 執行產品和物料的預測和補貨計算邏輯
+            calculate_product_forecast_and_restock()
+            calculate_material_forecast_and_restock()
+            
+            return Response({"success": True, "message": "補貨計劃已更新"}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"success": False, "error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

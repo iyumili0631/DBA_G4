@@ -70,6 +70,7 @@ class ProductRestock(models.Model):
     def __str__(self):
         return f"{self.product_name}"
 
+
 #物料補貨機制
 class MaterialRestock(models.Model):
     material_name = models.ForeignKey(Material, on_delete=models.CASCADE, related_name='restock_material_name')
@@ -81,3 +82,8 @@ class MaterialRestock(models.Model):
 
     def __str__(self):
         return f"{self.material_name}"
+    
+
+
+
+

@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'operations',
     'crm',
     'main',
-    'corsheaders'
+    'corsheaders',
 ]
 
 MIDDLEWARE = [

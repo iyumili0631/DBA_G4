@@ -123,6 +123,7 @@ function loadMaterialRestock(){
             throw new Error('Network response was not ok ' + response.statusText);
         }
         return response.json();
+        
     })
     .then(data => {
         // 渲染顧客列表
@@ -148,7 +149,7 @@ function loadMaterialRestock(){
 
 function refreshInventory(){
     //補這裡的API
-    fetch('http://localhost:8000/operations/api/refresh_inventory/', {
+    fetch('http://localhost:8000/operations/api/update_restock_plan/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -159,9 +160,12 @@ function refreshInventory(){
     .then(response => response.json())
     .then(data => {
         console.log('API Response:', data);  // 在控制台顯示響應
-        if (data.message === 'Inventory updated successfully') {
+        if (data.success && data.message === "補貨計劃已更新") {
             alert('重整成功！');
-            fetchChart();
+            loadProductRestock();
+            loadMaterialRestock();
+        }  else if (data.error) {
+            alert('錯誤: ' + data.error);  // 顯示錯誤信息
         } else {
             alert('重整失敗！');
         }
