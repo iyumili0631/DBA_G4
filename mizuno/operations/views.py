@@ -218,7 +218,7 @@ class CreateProductionTasksAPIView(APIView):
             # 確保 order_ID 是 ProductionOrder 的實例
             production_order = get_object_or_404(ProductionOrder, id=order_ID)
 
-            # 創建代辦事項
+            # 創建待辦事項
             Task.objects.create(
                 order_ID=production_order,  # 這裡傳入的是實例
                 task_date=task_date,
