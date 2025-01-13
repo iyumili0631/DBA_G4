@@ -16,7 +16,7 @@ class Customer(models.Model):
     name = models.CharField(max_length=255)
     last_purchase_date = models.DateField(null = True, blank = True)
     avg_purchase_interval = models.IntegerField(default = 0, blank = True)  # 平均購買間隔（天）
-    avg_purchase_value = models.FloatField(default = 0, blank = True) # 平均客單價（NTD）
+    avg_purchase_value = models.DecimalField(max_digits=10, decimal_places=2, default = 0, blank = True) # 平均客單價（NTD）
     avg_customer_years = models.FloatField(default = 3, blank = True) #平均客戶關係維持年數（年） 預設為3年
     lifetime_value = models.FloatField(default = 0, blank = True) #CLV 預設為0
     

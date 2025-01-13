@@ -85,7 +85,7 @@ async function fetchCustomer(){
 
         customerID = data.map(item => item.customer_ID)
         
-        await refreshCustomer(customerID); // 等待所有顧客更新完成
+        refreshCustomer(customerID); // 等待所有顧客更新完成
         loadCustomerList(); // 更新顧客列表
     }
     catch (error){
