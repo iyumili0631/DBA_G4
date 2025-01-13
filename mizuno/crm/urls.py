@@ -31,8 +31,6 @@ urlpatterns = [
 
     # 計算顧客指標 API(e.g.CLV)
      path('api/customers/<int:customer_ID>/update_metrics/', views.UpdateCustomerMetricsAPIView.as_view(), name='update_customer_metrics'),
-    # 銷售趨勢 API
-     path('marketing_trends/', views.marketing_trends_view, name='marketing_trends'),
     # 行銷數據更新 API
     path('api/marketing_metrics/update/', views.UpdateMarketingMetricsAPIView.as_view(), name='update_marketing_metrics'),
     # RFM分析 API

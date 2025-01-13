@@ -263,12 +263,17 @@ def trigger_rfm_analysis(request):
     return JsonResponse({'status': 'success', 'message': 'RFM 分析計算成功！'})
 
 # Marketing Metrics API
-class MarketingMetricsAPIView(generics.ListCreateAPIView):
-    """
-    提供 MarketingMetrics 表的列表和創建功能
-    """
-    queryset = MarketingMetrics.objects.all()
-    serializer_class = MarketingMetricsSerializer
+
+class MarketingMetricsAPIView(APIView):
+    def get(self, request):
+        try:
+            metrics = MarketingMetrics.objects.all().values('year', 'quarter', 'quarter_sales', 'quarter_growth_rate')
+            return Response(metrics, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response(
+                {"error": str(e)}, 
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
 
 class MarketingMetricsDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
@@ -284,29 +289,11 @@ class UpdateMarketingMetricsAPIView(APIView):
     """
     def post(self, request):
         try:
-            # 查看接收到的數據
-            print("Request data:", request.data)  # 查看後端接收到的數據
-
-            # 確保從前端接收的數據包含 'sales_data' 和 'growth_data'
-            sales_data = request.data.get('sales_data', {})
-            growth_data = request.data.get('growth_data', {})
-
-            # 查看解析後的數據
-            print("Parsed sales_data:", sales_data)
-            print("Parsed growth_data:", growth_data)
-
-            # 確保數據不為空
-            if not sales_data or not growth_data:
-                return Response(
-                    {"error": "Missing sales_data or growth_data"},
-                    status=status.HTTP_400_BAD_REQUEST
-                )
-
             # 計算行銷數據
             sales_data = MarketingMetrics.calculate_marketing_trends()
             growth_data = MarketingMetrics.calculate_growth_rate(sales_data)
 
-            # 儲存計算後的數據
+            # 儲存行銷數據
             MarketingMetrics.save_marketing_metrics(sales_data, growth_data)
 
             return Response(
@@ -321,4 +308,16 @@ class UpdateMarketingMetricsAPIView(APIView):
             return Response(
                 {"error": str(e), "details": "An error occurred while updating marketing metrics."}, 
                 status=status.HTTP_400_BAD_REQUEST
+            )
+
+# 新增一個 GET API 來提供行銷指標數據給前端顯示
+class MarketingMetricsAPIView(APIView):
+    def get(self, request):
+        try:
+            metrics = MarketingMetrics.objects.all().values('year', 'quarter', 'quarter_sales', 'quarter_growth_rate')
+            return Response(metrics, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response(
+                {"error": str(e)}, 
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )

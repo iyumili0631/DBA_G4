@@ -138,6 +138,8 @@ function refreshChart(){
         if (data.message === 'Marketing metrics updated successfully') {
             alert('重整成功！');
             fetchChart();
+        }  else if (data.error) {
+            alert('錯誤: ' + data.error);  // 顯示錯誤信息
         } else {
             alert('重整失敗！');
         }
