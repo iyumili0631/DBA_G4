@@ -4,17 +4,19 @@ from django.db import transaction
 from .models import *
 from crm.models import *
 
-# 補貨時更新產品庫存
-@receiver(post_save, sender=ProductRestock)
-def update_product_inventory_on_restock(sender, instance, created, **kwargs):
+# 新增生產訂單時產品庫存增加，物料庫存減少
+@receiver(post_save, sender=ProductionOrder)
+def update_inventory_on_production_order(sender, instance, created, **kwargs):
     if created:
         with transaction.atomic():
-            product = instance.product_name  # 关联的产品
-            restock_quantity = instance.restock_quantity  # 補貨數量
+            # 獲取生產訂單中的產品和物料
+            product = instance.product_name
+            material = instance.material_name
+            product_quantity = int(instance.product_quantity)
+            material_quantity = float(instance.material_quantity)
 
-            # 更新產品庫存
-            product.product_inventory += restock_quantity
-            product.save()
+            # 更新產品庫存數量
+            product.product_inventory += product_quantity
 
             # 更新產品庫存狀態
             if product.product_inventory <= product.product_safe_inventory:
@@ -23,8 +25,20 @@ def update_product_inventory_on_restock(sender, instance, created, **kwargs):
                 product.product_inventory_status = '缺貨'
             else:
                 product.product_inventory_status = '充足'
-
             product.save()
+
+            # 更新物料庫存數量
+            material.material_inventory -= material_quantity
+
+            # 更新物料庫存狀態
+            if material.material_inventory <= material.material_safe_inventory:
+                material.material_inventory_status = '低於安全庫存'
+            elif material.material_inventory == 0:
+                material.material_inventory_status = '缺貨'
+            else:
+                material.material_inventory_status = '充足'
+            material.save()
+
 
 # 顧客訂單時減少產品庫存
 @receiver(post_save, sender=CustomerOrder)

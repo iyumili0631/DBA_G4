@@ -7,10 +7,14 @@ from django.utils.decorators import method_decorator
 from rest_framework import status
 from rest_framework import generics
 from .models import BOM, ProductionOrder, Task, Product, Material, ProductRestock, MaterialRestock
+from crm.models import CustomerOrder
 from .serializers import *
 from django.views import View
 import json
 from django.shortcuts import get_object_or_404
+from datetime import datetime, timedelta
+from django.db.models import Sum
+
 
 
 # ==========================
@@ -98,9 +102,14 @@ class CreateProductionOrderAPIView(APIView):
             if not all([order_ID, order_date, product_name, product_quantity, material_name, order_deadline]):
                 return JsonResponse({'success': False, 'error': '所有欄位均為必填！'}, status=400)
 
+            order_date = datetime.strptime(order_date, "%Y-%m-%d").date()
+            order_deadline = datetime.strptime(order_deadline, "%Y-%m-%d").date()
+            product_quantity = int(product_quantity)
+            
             # 確保關聯的實例
             product_name = get_object_or_404(Product, product_name=product_name)
             material_name = get_object_or_404(Material, material_name=material_name)
+            
 
             #計算物料數量
             if product_name.__eq__("排球上衣"):
@@ -269,3 +278,72 @@ class MaterialRestockAPIView(generics.ListCreateAPIView):
 class MaterialRestockDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = MaterialRestock.objects.all()
     serializer_class = MaterialRestockSerializer
+
+
+class Forecast(APIView):
+    # Helper function to calculate moving average
+    def calculate_moving_average(product_name, start_date, window_size=3):
+        """
+        Calculate the moving average for the given product within a specified date range.
+        Args:
+            product_name (str): Name of the product.
+            start_date (datetime): Start date for the data range.
+            window_size (int): Number of months for moving average calculation (default is 3).
+
+        Returns:
+            float: The moving average of sales for the product.
+        """
+        total_sales = 0
+        valid_months = 0
+
+        for i in range(window_size):
+            month_start = (start_date - timedelta(days=30 * i)).replace(day=1)
+            month_end = (month_start + timedelta(days=32)).replace(day=1) - timedelta(days=1)
+
+            sales = CustomerOrder.objects.filter(
+                product_name=product_name,
+                order_date__gte=month_start,
+                order_date__lte=month_end
+            ).aggregate(total=Sum('quantity'))['total']
+
+            if sales:
+                total_sales += sales
+                valid_months += 1
+
+        return total_sales / valid_months if valid_months > 0 else 0
+
+
+    def forecast_view(request):
+        """
+        View function to display demand forecasts and restock quantities for the products.
+        """
+        today = datetime.today()
+        start_date = today.replace(day=1)
+
+        products = ["排球上衣", "排球褲", "運動厚底短襪（1雙）"]
+        forecasts = {}
+
+        for product in products:
+            forecast_quantity = calculate_moving_average(product, start_date)
+            forecasts[product] = forecast_quantity
+
+        context = {
+            'forecasts': forecasts,
+            'next_restock_date': (today + timedelta(days=1)).replace(day=1)
+        }
+        return render(request, context)
+
+
+def refresh_inventory(request):
+    if request.method == 'POST':
+        products = Product.objects.all()
+        for product in products:
+            if product.product_inventory < product.product_safe_inventory:
+                product.product_inventory_status = '低於安全庫存'
+            elif product.product_inventory == 0:
+                product.product_inventory_status = '缺貨'
+            else:
+                product.product_inventory_status = '充足'
+            product.save()
+        return JsonResponse({'message': '庫存狀態已刷新', 'status': 'success'})
+    return JsonResponse({'message': 'Invalid request method', 'status': 'error'}, status=400)

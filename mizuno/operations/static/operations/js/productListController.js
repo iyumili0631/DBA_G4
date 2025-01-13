@@ -148,7 +148,7 @@ function loadMaterialRestock(){
 
 function refreshInventory(){
     //補這裡的API
-    fetch('http://localhost:8000/operations/api//', {
+    fetch('http://localhost:8000/operations/api/refresh_inventory/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
