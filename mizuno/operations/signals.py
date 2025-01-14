@@ -65,3 +65,6 @@ def update_product_inventory_on_order(sender, instance, created, **kwargs):
                 product.save()
             else:
                 raise ValueError(f"庫存不足，無法完成訂單，當前庫存為 {product.product_inventory}")
+            
+
+

@@ -230,6 +230,7 @@ class CreateProductionTasksAPIView(APIView):
 
         except Exception as e:
             return JsonResponse({'success': False, 'error': str(e)}, status=500)
+        
 
 # Products API
 class ProductsAPIView(generics.ListCreateAPIView):

@@ -49,6 +49,24 @@ class ProductionOrder(models.Model):
     def __str__(self):
         return f"{self.order_ID}"
 
+import re
+from decimal import Decimal
+
+def extract_text_and_numbers(input_text):
+    """
+    從輸入文本中提取中文字串和數字
+    :param input_text: 包含文字和數字的字符串
+    :return: tuple (中文字串, 數字列表)
+    """
+    # 提取中文字串
+    chinese_text = ''.join(re.findall(r'[\u4e00-\u9fff]+', input_text))
+    
+    # 提取數字
+    numbers = re.findall(r'\d+', input_text)
+    numbers = [int(num) for num in numbers] # 將數字轉換為int列表
+    
+    return chinese_text, numbers
+
 # 待辦事項
 class Task(models.Model):
     order_ID = models.ForeignKey(ProductionOrder, on_delete=models.DO_NOTHING, related_name='task_order_id')
@@ -56,6 +74,10 @@ class Task(models.Model):
     task_action = models.CharField(max_length=50, choices=[('生產', '生產'), ('發貨', '發貨'), ('訂購', '訂購')])
     task_content = models.TextField()
     task_status = models.CharField(max_length=50, choices=[('未完成', '未完成'), ('完成', '完成')])
+
+    def process_field(self):
+        chinese, numbers = extract_text_and_numbers(self.task_content)
+        return chinese, numbers
 
 
 # 產品補貨機制
