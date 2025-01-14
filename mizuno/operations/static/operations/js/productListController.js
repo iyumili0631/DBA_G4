@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
 function loadProducts(){
     const productList = document.getElementById('productList').querySelector('tbody');
     
-    fetch('http://localhost:8000/operations/api/products/')
+    fetch('/operations/api/products/')
     .then(response => {
         if (!response.ok) {
             throw new Error('Network response was not ok ' + response.statusText);
@@ -52,7 +52,7 @@ function loadProducts(){
 function loadProductRestock(){
     const productRestockList = document.getElementById('productRestockList').querySelector('tbody');
 
-    fetch('http://localhost:8000/operations/api/product_restock/')
+    fetch('/operations/api/product_restock/')
     .then(response => {
         if (!response.ok) {
             throw new Error('Network response was not ok ' + response.statusText);
@@ -84,7 +84,7 @@ function loadProductRestock(){
 function loadMaterial(){
     const materialList = document.getElementById('materialList').querySelector('tbody');
 
-    fetch('http://localhost:8000/operations/api/materials/')
+    fetch('/operations/api/materials/')
     .then(response => {
         if (!response.ok) {
             throw new Error('Network response was not ok ' + response.statusText);
@@ -117,7 +117,7 @@ function loadMaterial(){
 function loadMaterialRestock(){
     const materialRestockList = document.getElementById('materialRestockList').querySelector('tbody');
 
-    fetch('http://localhost:8000/operations/api/material_restock/')
+    fetch('/operations/api/material_restock/')
     .then(response => {
         if (!response.ok) {
             throw new Error('Network response was not ok ' + response.statusText);
@@ -149,7 +149,7 @@ function loadMaterialRestock(){
 
 function refreshInventory(){
     //補這裡的API
-    fetch('http://localhost:8000/operations/api/update_restock_plan/', {
+    fetch('/operations/api/update_restock_plan/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

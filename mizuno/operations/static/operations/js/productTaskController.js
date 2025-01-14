@@ -6,7 +6,7 @@ function loadProductTask (){
     const productTaskList = document.getElementById('productTaskList').querySelector('tbody');
 
     // 獲取待辦事項資料
-    fetch('http://localhost:8000/operations/api/production_tasks/')
+    fetch('/operations/api/production_tasks/')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok ' + response.statusText);
@@ -62,7 +62,7 @@ function updateTask (orderId){
     taskStatusCell.textContent = '更新中...';
 
     // 發送 PATCH 請求到後端
-    fetch(`http://localhost:8000/operations/api/production_tasks/${orderId}/`, {
+    fetch(`/operations/api/production_tasks/${orderId}/`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
@@ -88,7 +88,7 @@ function updateTask (orderId){
         });
 }
 
-fetch ('http://localhost:8000/operations/api/production_order_IDs/')
+fetch ('/operations/api/production_order_IDs/')
     .then(response => {
         if (!response.ok) {
             throw new Error(`Network response was not ok: ${response.statusText}`);
@@ -126,7 +126,7 @@ function addAction (){
     }
 
     // 發送 POST 請求到後端
-    fetch('http://localhost:8000/operations/api/create_production_tasks/', {
+    fetch('/operations/api/create_production_tasks/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

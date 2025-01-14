@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
 function loadProductOrder(){
     const productOrderList = document.getElementById('productOrderList').querySelector('tbody');
 
-    fetch('http://localhost:8000/operations/api/production_orders/')
+    fetch('/operations/api/production_orders/')
     .then(response => {
         if (!response.ok) {
             throw new Error('Network response was not ok ' + response.statusText);
@@ -59,7 +59,7 @@ function updateProductOrderStatus(orderId){
 
 
         // 發送 PATCH 請求到後端
-        fetch(`http://localhost:8000/operations/api/production_orders/${orderId}/`, {
+        fetch(`/operations/api/production_orders/${orderId}/`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -93,7 +93,7 @@ function addProductOrder(){
     }
 
     // 發送 POST 請求到後端
-    fetch('http://localhost:8000/operations/api/create_production_orders/', {
+    fetch('/operations/api/create_production_orders/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -125,7 +125,7 @@ function addProductOrder(){
         });
 }
 
-fetch ('http://localhost:8000/operations/api/product_names/')
+fetch ('/operations/api/product_names/')
     .then(response => {
         if (!response.ok) {
             throw new Error(`Network response was not ok: ${response.statusText}`);
@@ -150,7 +150,7 @@ fetch ('http://localhost:8000/operations/api/product_names/')
         alert('無法加載產品資料，請稍後再試！');
     });
 
-fetch ('http://localhost:8000/operations/api/material_names/')
+fetch ('/operations/api/material_names/')
     .then(response => {
         if (!response.ok) {
             throw new Error(`Network response was not ok: ${response.statusText}`);
