@@ -173,7 +173,8 @@
                     <br>
                     {% csrf_token %}
 
-                    <button type='button' class="btn btn-light" id='refreshChart' onclick="refreshChart()">刷新頁面</button>
+                    <div><button type='button' class="btn btn-light" id='refreshChart' onclick="refreshChart()">刷新頁面</button></div>
+                    <br>
 
                     <canvas id="salesChart" width="400" height="200" style='background:white'>季銷售額</canvas>
                     <canvas id="growthRateChart" width="400" height="200" style='background:white'>季銷售額成長率</canvas>
