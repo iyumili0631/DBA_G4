@@ -94,23 +94,23 @@
 
 
                         <ul class="list-group list-group-flush" style="text-align: center;">
-                            <a href="http://localhost:8000/crm/customer_list" class="list-group-item list-group-item-action">
+                            <a href="{% url 'customer_list' %}" class="list-group-item list-group-item-action">
                                 <div class="portfolio-caption-heading strong-font" style="color: #405580;">顧客資訊</div>
                                 <div class="portfolio-caption-subheading text-muted"><i>Customer Information</i></div>
                             </a>
-                            <a href="http://localhost:8000/crm/customer_order_list" class="list-group-item list-group-item-action">
+                            <a href="{% url 'customer_order_list' %}" class="list-group-item list-group-item-action">
                                 <div class="portfolio-caption-heading strong-font" style="color: #405580;">顧客訂單</div>
                                 <div class="portfolio-caption-subheading text-muted"><i>Customer Order</i></div>
                             </a>
-                            <a href="http://localhost:8000/crm/marketing_metrics_list" class="list-group-item list-group-item-action">
+                            <a href="{% url 'marketing_metrics_list' %}" class="list-group-item list-group-item-action">
                                 <div class="portfolio-caption-heading strong-font" style="color: #405580;">行銷指標</div>
                                 <div class="portfolio-caption-subheading text-muted"><i>Marketing Metrics</i></div>
                             </a>
-                            <a href="http://localhost:8000/crm/rfm_analysis_list" class="list-group-item list-group-item-action">
+                            <a href="{% url 'rfm_analysis_list' %}" class="list-group-item list-group-item-action">
                                 <div class="portfolio-caption-heading strong-font" style="color: #405580;">RFM分析</div>
                                 <div class="portfolio-caption-subheading text-muted"><i>RFM Analysis</i></div>
                             </a>
-                            <a href="http://localhost:8000/main" class="list-group-item list-group-item-action">
+                            <a href="{% url 'main' %}" class="list-group-item list-group-item-action">
                                 <div class="portfolio-caption-heading strong-font" style="color: #405580;">回首頁</div>
                                 <div class="portfolio-caption-subheading text-muted"><i>Home Page</i></div>
                             </a>

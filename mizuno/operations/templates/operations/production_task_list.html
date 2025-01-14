@@ -21,7 +21,7 @@
         <link href="https://fonts.googleapis.com/earlyaccess/cwtexyen.css" rel="stylesheet">
 
 
-        <script src="{% static 'operations/js/productTaskController.js' %}"></script>
+        <script src="{% static 'operations/js/productTaskController.js/' %}"></script>
    
         <style type="text/css">
 
@@ -141,23 +141,23 @@
                                 <p class="mb-2 portfolio-caption-subheading">請選擇您要進入的頁面</p>
                             </div>
                             <ul class="list-group list-group-flush" style="text-align: center;">
-                                <a href="http://localhost:8000/operations/bom_list" class="list-group-item list-group-item-action">
+                                <a href="{% url 'bom_list' %}" class="list-group-item list-group-item-action">
                                     <div class="portfolio-caption-heading strong-font" style="color: #405580;">BOM表</div>
                                     <div class="portfolio-caption-subheading text-muted"><i>Bill Of Material</i></div>
                                 </a>
-                                <a href="http://localhost:8000/operations/production_task_list" class="list-group-item list-group-item-action">
+                                <a href="{% url 'production_task_list' %}" class="list-group-item list-group-item-action">
                                     <div class="portfolio-caption-heading strong-font" style="color: #405580;">待辦事項</div>
                                     <div class="portfolio-caption-subheading text-muted"><i>To-Do-List</i></div>
                                 </a>
-                                <a href="http://localhost:8000/operations/production_order_list" class="list-group-item list-group-item-action">
+                                <a href="{% url 'production_order_list' %}" class="list-group-item list-group-item-action">
                                     <div class="portfolio-caption-heading strong-font" style="color: #405580;">訂單資訊</div>
                                     <div class="portfolio-caption-subheading text-muted"><i>Order Information</i></div>
                                 </a>
-                                <a href="http://localhost:8000/operations/product_list" class="list-group-item list-group-item-action">
+                                <a href="{% url 'product_list' %}" class="list-group-item list-group-item-action">
                                     <div class="portfolio-caption-heading strong-font" style="color: #405580;">當前存貨</div>
                                     <div class="portfolio-caption-subheading text-muted"><i>Current Inventory</i></div>
                                 </a>
-                                <a href="http://localhost:8000/main" class="list-group-item list-group-item-action">
+                                <a href="{% url 'main' %}" class="list-group-item list-group-item-action">
                                     <div class="portfolio-caption-heading strong-font" style="color: #405580;">回首頁</div>
                                     <div class="portfolio-caption-subheading text-muted"><i>Home Page</i></div>
                                 </a>
