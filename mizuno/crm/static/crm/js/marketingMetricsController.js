@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
 async function fetchChart(){
     try {
         // 從後端 API 獲取數據
-        const response = await fetch('http://localhost:8000/crm/api/marketing_metrics/');
+        const response = await fetch('/crm/api/marketing_metrics/');
         if (!response.ok) {
             throw new Error(`Failed to fetch data: ${response.statusText}`);
         }
@@ -124,7 +124,7 @@ function createLineChart (labels, values){
 
 function refreshChart(){
 
-    fetch('http://localhost:8000/crm/api/marketing_metrics/update/', {
+    fetch('/crm/api/marketing_metrics/update/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
 function loadRFM (){
     const rfmList = document.getElementById('rfmList').querySelector('tbody');
 
-    fetch('http://localhost:8000/crm/api/rfm_analysis/')
+    fetch('/crm/api/rfm_analysis/')
     .then(response => response.json())
     .then(data => {
         rfmList.innerHTML = '';  // 清空表格
@@ -30,7 +30,7 @@ function loadRFM (){
 }
 
 function saveButton(){
-    fetch('http://localhost:8000/crm/trigger_rfm_analysis/', {
+    fetch('/crm/trigger_rfm_analysis/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

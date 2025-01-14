@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
 function loadCustomerList() {
     // 手動觸發顧客列表更新
     const customerListTable = document.getElementById('customerList').querySelector('tbody');
-    fetch('http://localhost:8000/crm/api/customers/')
+    fetch('/crm/api/customers/')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok ' + response.statusText);
@@ -46,7 +46,7 @@ function addCustomer() {
 
 
     // 發送 POST 請求到後端
-    fetch('http://localhost:8000/crm/api/customers/create/', {
+    fetch('/crm/api/customers/create/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -75,7 +75,7 @@ function addCustomer() {
 
 async function fetchCustomer(){
     try{
-        const response = await fetch('http://localhost:8000/crm/api/customers/')
+        const response = await fetch('/crm/api/customers/')
         if (!response.ok){
             throw new Error(`Failed to fetch data: ${response.statusText}`);
         }
@@ -99,7 +99,7 @@ function refreshCustomer(customerIDs){
     //每個id發送一次
     customerIDs.forEach(async (customer_ID) => {
         try {
-            const response = await fetch(`http://localhost:8000/crm/api/customers/${customer_ID}/update_metrics/`, {
+            const response = await fetch(`/crm/api/customers/${customer_ID}/update_metrics/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

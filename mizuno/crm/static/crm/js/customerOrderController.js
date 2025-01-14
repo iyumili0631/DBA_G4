@@ -8,7 +8,7 @@ function loadCustomerOrderList(){
 
 
     // 獲取顧客訂單資料
-    fetch('http://localhost:8000/crm/api/customer_orders/')
+    fetch('/crm/api/customer_orders/')
         .then(response => response.json())
         .then(data => {
             customerList.innerHTML = '';  // 清空表格內容
@@ -56,7 +56,7 @@ function updateOrderStatus (orderId){
 
 
     // 發送 POST 請求到後端
-    fetch(`http://localhost:8000/crm/api/customer_orders/${orderId}/`, {
+    fetch(`/crm/api/customer_orders/${orderId}/`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
@@ -90,7 +90,7 @@ function addCustomerOrder(){
 
 
     // 發送 POST 請求到後端
-    fetch('http://localhost:8000/crm/api/create_customer_orders/', {
+    fetch('/crm/api/create_customer_orders/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -120,7 +120,7 @@ function addCustomerOrder(){
         });
 }
 
-fetch ('http://localhost:8000/crm/api/customer_names/')
+fetch ('/crm/api/customer_names/')
     .then(response => {
         if (!response.ok) {
             throw new Error(`Network response was not ok: ${response.statusText}`);
@@ -145,7 +145,7 @@ fetch ('http://localhost:8000/crm/api/customer_names/')
         alert('無法加載顧客資料，請稍後再試！');
     });
 
-fetch ('http://localhost:8000/operations/api/product_names/')
+fetch ('/operations/api/product_names/')
     .then(response => {
         if (!response.ok) {
             throw new Error(`Network response was not ok: ${response.statusText}`);
