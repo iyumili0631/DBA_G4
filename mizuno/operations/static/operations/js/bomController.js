@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const bomListTable = document.getElementById('bomList').querySelector('tbody');
 
     // 獲取顧客數據
-    fetch('{% url '/operations/api/boms/' %}')
+    fetch('{% url "bom_api"%}')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok ' + response.statusText);
